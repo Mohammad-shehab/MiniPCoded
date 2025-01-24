@@ -1,0 +1,65 @@
+﻿@model IndexViewModel
+
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<h1 class="text-center mt-4">
+    Welcome, @Model.FirstName @Model.LastName
+</h1>
+
+<div class="text-center mt-3">
+    <img src="@Model.ProfilePicturePath" alt="Profile Picture" class="rounded-circle" style="width: 150px; height: 150px;" />
+</div>
+
+
+
+<p class="text-center mt-3" style="font-size: 24px;">
+    Total Balance: @Model.Balance.ToString("C")
+</p>
+
+
+<div class="col-sm-12 text-center">
+    <a asp-action="Transaction" asp-controller="Transaction" class="btn btn-primary">Make a Transaction</a>
+</div>
+
+
+
+<style>
+    .styled-table {
+        width: 50%;
+        margin: auto;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .styled-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .styled-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>

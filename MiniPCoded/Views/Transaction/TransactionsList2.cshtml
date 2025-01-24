@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TransactionViewModel>
+
+@{
+    ViewBag.Title = "Transactions List";
+}
+
+<h1 class="text-center mt-4">Transactions List</h1>
+
+<div class="container mt-4">
+    <form asp-action="TransactionsList" method="get" class="form-inline mb-4">
+        <div class="form-group mx-sm-2">
+            <label for="transactionType" class="sr-only">Transaction Type</label>
+            <select id="transactionType" name="transactionType" class="form-control">
+                <option value="">All Types</option>
+                <option value="Withdrawal">Withdrawal</option>
+                <option value="Deposit">Deposit</option>
+                <option value="Transfer">Transfer</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-2">
+            <label for="minAmount" class="sr-only">Min Amount</label>
+            <input type="number" id="minAmount" name="minAmount" class="form-control" placeholder="Min Amount" />
+        </div>
+        <div class="form-group mx-sm-2">
+            <label for="maxAmount" class="sr-only">Max Amount</label>
+            <input type="number" id="maxAmount" name="maxAmount" class="form-control" placeholder="Max Amount" />
+        </div>
+        <div class="form-group mx-sm-2">
+            <label for="startDate" class="sr-only">Start Date</label>
+            <input type="date" id="startDate" name="startDate" class="form-control" />
+        </div>
+        <div class="form-group mx-sm-2">
+            <label for="endDate" class="sr-only">End Date</label>
+            <input type="date" id="endDate" name="endDate" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary mx-sm-2">Filter</button>
+    </form>
+
+    <div class="row">
+        @foreach (var transaction in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@transaction.Type</h5>
+                        <p class="card-text">
+                            <strong>Amount:</strong> @transaction.Amount.ToString("C")<br>
+                            <strong>Date:</strong> @transaction.TransactionDate.ToShortDateString()
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

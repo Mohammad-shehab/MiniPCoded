@@ -1,0 +1,25 @@
+﻿﻿
+@model TransferViewModel
+
+
+@{
+    ViewData["Title"] = "Transfer";
+}
+
+<h1>Transfer Money</h1>
+<h4>Balance: :@ViewBag.Balance</h4>
+<form asp-action="Transfer" asp-controller="Transaction" method="post">
+	<div asp-validation-summary="All" class="text-danger"></div>
+	<div class="form-group">
+		<label asp-for="Amount" class="control-label"></label>
+		<input asp-for="Amount" class="form-control" />
+		<span asp-validation-for="Amount" class="text-danger"></span>
+	</div>
+	
+	<input type="hidden" asp-for="Id" class="form-control" />
+	<input type="hidden" asp-for="TargetId" class="form-control" />
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary" value="Transfer" />
+</form>
+
+<a asp-action="DisplayAllUsers" asp-controller="Home" class="btn btn-outline-secondary">Go Back</a>

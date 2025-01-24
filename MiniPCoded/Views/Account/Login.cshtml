@@ -1,0 +1,75 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<form asp-action="Login" method="post" style="width: 50%; margin: auto;">
+    <div asp-validation-summary="All"></div>
+    <table class="styled-table">
+        <tr>
+            <td><label asp-for="Email"></label></td>
+            <td>
+                <input asp-for="Email" class="form-control" />
+                <span class="alert-danger" asp-validation-for="Email" style="color: red;"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Password"></label></td>
+            <td>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span class="alert-danger" asp-validation-for="Password" style="color: red;"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="RememberMe"></label></td>
+            <td>
+                <input asp-for="RememberMe" class="form-check-input" />
+            </td>
+        </tr>
+
+        <td colspan="2" style="text-align: center; padding: 10px;">
+            <input type="submit" class="btn btn-success" value="Save" style="margin-right: 10px;" />
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <a asp-action="RegisterStep1" class="btn btn-secondary">Create Account</a>
+        </td>
+        </tr>
+    </table>
+    <div class="text-danger" style="text-align: center; margin-top: 10px;">
+        @Html.ValidationSummary()
+    </div>
+</form>
+
+
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+        .styled-table th, .styled-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .styled-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .styled-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .styled-table th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+

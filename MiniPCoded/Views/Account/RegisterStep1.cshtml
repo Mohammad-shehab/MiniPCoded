@@ -1,0 +1,41 @@
+﻿@model  RegisterStep1ViewModel
+
+@{
+    ViewData["Title"] = "Register - Step 1";
+}
+
+<h1>Register - Step 1</h1>
+
+<form asp-action="RegisterStep1" method="post" style="width: 50%; margin: auto;">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <table class="styled-table">
+        <tr>
+            <td><label asp-for="Email" class="control-label"></label></td>
+            <td>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Password" class="control-label"></label></td>
+            <td>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="ConfirmPassword" class="control-label"></label></td>
+            <td>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; padding: 10px;">
+                <input type="submit" class="btn btn-success" value="Next" style="margin-right: 10px;" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+            </td>
+        </tr>
+    </table>
+</form>

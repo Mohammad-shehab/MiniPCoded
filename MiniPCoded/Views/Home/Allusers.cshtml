@@ -1,0 +1,39 @@
+﻿
+
+@model IEnumerable<IndexViewModel>
+
+@{
+    ViewBag.Title = "All Users";
+}
+
+
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var user in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img class="card-img-top img-thumbnail" src="~/Images/@user.ProfilePicturePath" alt="Profile Picture">
+                    <div class="card-body">
+                        <h5 class="card-title">@user.FirstName @user.LastName</h5>
+                        <p class="card-text">
+                            <strong>Email:</strong> @user.Email<br>
+                            <strong>Balance:</strong> @user.Balance.ToString("C")<br>
+                            <strong>Id:</strong> @user.Id
+                        </p>
+                        
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="card-body">
+                            <a asp-action="Transfer" asp-controller="Transaction" asp-route-id="@user.Id" class="btn btn-outline-primary">Transfer</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
