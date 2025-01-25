@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Transactions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +12,18 @@ using MiniPCoded.Models.ViewModels;
 
 namespace MiniPCoded.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         #region InjectedServices
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
         private ApplicationDbContext db;
-        private readonly IWebHostEnvironment webHostEnvironment;
-
         public HomeController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext, IWebHostEnvironment hostEnvironment)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             db = _applicatioDbContext;
-            webHostEnvironment = hostEnvironment;
 
         }
 
@@ -79,13 +78,12 @@ namespace MiniPCoded.Controllers
 
 
 
-
-
-
         public async Task<IActionResult> EditAccountDetails()
         {
             var user = await userManager.GetUserAsync(User);
-            if (user == null) { return NotFound(); }
+            if (user == null) 
+            { return NotFound(); 
+            }
 
             EditViewModel model = new EditViewModel()
             {
@@ -101,22 +99,39 @@ namespace MiniPCoded.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> EditAccountDetails(EditViewModel model)
-        {
-          
 
+        [HttpPost]
+        public async Task<IActionResult> EditAccountDetails(EditViewModel model, IFormFile profilePicture)
+        {
             var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
+            // Retain the current profile picture path if no new picture is uploaded
+            string imagePath = user.ProfilePicturePath;
+            if (profilePicture != null)
+            {
+                var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                if (!Directory.Exists(uploadsDir))
+                {
+                    Directory.CreateDirectory(uploadsDir);
+                }
+
+                var filePath = Path.Combine(uploadsDir, profilePicture.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(stream);
+                }
+                imagePath = "/images/" + profilePicture.FileName;
+            }
 
             user.Email = model.Email;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.ProfilePicturePath = model.ProfilePicturePath;
+            user.ProfilePicturePath = imagePath; // Use the retained or updated profile picture path
+
             var result = await userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -131,11 +146,7 @@ namespace MiniPCoded.Controllers
             return View(model);
         }
 
-      
 
-  
-
-        [HttpGet]
         public async Task<IActionResult> Allusers()
         {
             var curr = await userManager.GetUserAsync(User);

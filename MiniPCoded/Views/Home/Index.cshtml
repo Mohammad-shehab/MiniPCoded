@@ -4,26 +4,25 @@
     ViewBag.Title = "Welcome";
 }
 
-<h1 class="text-center mt-4">
-    Welcome, @Model.FirstName @Model.LastName
-</h1>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Welcome, @Model.FirstName @Model.LastName</h2>
+        </div>
+        <div class="card-body text-center">
+            <div class="mb-4">
+                <img src="@Model.ProfilePicturePath" alt="Profile Picture" class="rounded-circle" style="width: 150px; height: 150px;" />
+            </div>
 
-<div class="text-center mt-3">
-    <img src="@Model.ProfilePicturePath" alt="Profile Picture" class="rounded-circle" style="width: 150px; height: 150px;" />
+            <p class="h4 text-success mb-4">Total Balance: @Model.Balance.ToString("C")</p>
+
+            <a asp-action="Transaction" asp-controller="Transaction" class="btn btn-outline-primary">Make a Transaction</a>
+        </div>
+        <div class="card-footer text-center text-muted">
+            <small>Secure Banking © 2025</small>
+        </div>
+    </div>
 </div>
-
-
-
-<p class="text-center mt-3" style="font-size: 24px;">
-    Total Balance: @Model.Balance.ToString("C")
-</p>
-
-
-<div class="col-sm-12 text-center">
-    <a asp-action="Transaction" asp-controller="Transaction" class="btn btn-primary">Make a Transaction</a>
-</div>
-
-
 
 <style>
     .styled-table {
@@ -63,3 +62,8 @@
         text-align: center;
     }
 </style>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

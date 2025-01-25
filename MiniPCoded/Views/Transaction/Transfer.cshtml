@@ -1,24 +1,46 @@
-﻿﻿
-@model TransferViewModel
-
+﻿@model TransferViewModel
 
 @{
-    ViewData["Title"] = "Transfer";
+    ViewData["Title"] = "Transfer Funds";
 }
 
-<h4> Current Balance: :@ViewBag.Balance</h4>
-<form asp-action="Transfer" asp-controller="Transaction" method="post">
-	<div asp-validation-summary="All" class="text-danger"></div>
-	<div class="form-group">
-		<label asp-for="Amount" class="control-label"></label>
-		<input asp-for="Amount" class="form-control" />
-		<span asp-validation-for="Amount" class="text-danger"></span>
-	</div>
-	
-	<input type="hidden" asp-for="Id" class="form-control" />
-	<input type="hidden" asp-for="TargetId" class="form-control" />
-	<div class="form-group">
-		<input type="submit" class="btn btn-primary" value="Transfer" />
-</form>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Transfer Funds</h2>
+        </div>
+        <div class="card-body">
+            <h4 class="text-center text-success mb-4">Current Balance: @(ViewBag.Balance.ToString("C"))</h4>
+            <hr />
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form asp-action="Transfer" asp-controller="Transaction" method="post" class="mt-4">
+                        <div class="form-group mb-3">
+                            <label asp-for="Amount" class="form-label">Amount</label>
+                            <input asp-for="Amount" class="form-control" />
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
 
-<a asp-action="AllUsers" asp-controller="Home" class="btn btn-outline-secondary">Go Back</a>
+                        <input type="hidden" asp-for="Id" class="form-control" />
+                        <input type="hidden" asp-for="TargetId" class="form-control" />
+
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-outline-primary mx-2" value="Transfer" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a asp-action="AllUsers" asp-controller="Home" class="btn btn-outline-secondary">Go Back</a>
+            </div>
+        </div>
+        <div class="card-footer text-center text-muted">
+            <small>Secure Banking © 2025</small>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

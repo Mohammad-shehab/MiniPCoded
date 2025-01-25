@@ -1,41 +1,74 @@
-﻿@model  RegisterStep1ViewModel
+﻿@model RegisterStep1ViewModel
 
 @{
     ViewData["Title"] = "Register - Step 1";
 }
 
-<h1>Step 1</h1>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Register - Step 1</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="RegisterStep1" method="post" class="mt-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<form asp-action="RegisterStep1" method="post" style="width: 50%; margin: auto;">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <table class="styled-table">
-        <tr>
-            <td><label asp-for="Email" class="control-label"></label></td>
-            <td>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="Password" class="control-label"></label></td>
-            <td>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="ConfirmPassword" class="control-label"></label></td>
-            <td>
-                <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center; padding: 10px;">
-                <input type="submit" class="btn btn-success" value="Next" style="margin-right: 10px;" />
-                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
 
-            </td>
-        </tr>
-    </table>
-</form>
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-group text-center">
+                    <input type="submit" class="btn btn-outline-success mx-2" value="Next" />
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center text-muted">
+            <small>Secure Banking © 2025</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+        .styled-table th, .styled-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .styled-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .styled-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .styled-table th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

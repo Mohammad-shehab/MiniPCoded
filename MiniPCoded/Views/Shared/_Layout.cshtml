@@ -31,8 +31,7 @@
                         @if (signinManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Transaction"
-                                   asp-action="TransactionsList2">Transactions</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="TransactionsList2">Transactions</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AllUsers">Users</a>
@@ -47,8 +46,7 @@
                         {
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="nav-link text-dark btn btn-link"
-                                            style="cursor: pointer;">
+                                    <button type="submit" class="nav-link text-dark btn btn-link" style="cursor: pointer;">
                                         Logout @User.Identity!.Name
                                     </button>
                                 </form>
@@ -87,3 +85,5 @@
 </body>
 
 </html>
+
+

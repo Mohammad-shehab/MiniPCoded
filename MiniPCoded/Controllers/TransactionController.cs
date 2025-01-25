@@ -20,32 +20,16 @@ namespace MiniPCoded.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
         private ApplicationDbContext db;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
         public TransactionController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext, IWebHostEnvironment hostEnvironment)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             db = _applicatioDbContext;
-            webHostEnvironment = hostEnvironment;
 
         }
 
         #endregion
-
-        //public async Task<IActionResult> TransactionsList()
-        //{
-        //    var mylist = await userManager.GetUserAsync(User);
-        //    var transactions = db.Transactions.Where(user => user.ApplicationUserId == mylist.Id)
-        //    .Select(user => new TransactionViewModel
-        //    {
-        //        Amount = user.Amount,
-        //        TransactionDate = user.TransactionDate,
-        //        Type = (TransactionViewModel.TransactionType)user.Type
-        //    }).ToList();
-        //    return View(transactions);
-        //}
-
 
         public async Task<IActionResult> Transaction()
         {
@@ -74,21 +58,25 @@ namespace MiniPCoded.Controllers
 
             if (choice == "Withdraw" && (user.Balance - model.Amount) < 0)
             {
-                ModelState.AddModelError("Insufficient", "You dont have enough to complete your transaction.");
+                ModelState.AddModelError("InsufficientFunds", "Insufficient funds to complete this transaction.");
                 ViewBag.Balance = user.Balance;
                 return View(model);
             }
 
-            Models.Transaction transaction = new Models.Transaction()
+            var transactionType = (choice == "Withdraw")
+                ? Models.Transaction.TransactionType.Withdrawal
+                : Models.Transaction.TransactionType.Deposit;
+
+            var transaction = new Models.Transaction
             {
                 Amount = model.Amount,
-                Type = (choice == "Withdraw") ? Models.Transaction.TransactionType.Withdrawal : Models.Transaction.TransactionType.Deposit,
+                Type = transactionType,
                 TransactionDate = model.TransactionDate,
                 ApplicationUserId = user.Id
             };
 
             db.Transactions.Add(transaction);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             user.Balance += (choice == "Withdraw") ? -model.Amount : model.Amount;
             var result = await userManager.UpdateAsync(user);
@@ -108,8 +96,7 @@ namespace MiniPCoded.Controllers
             return View(model);
         }
 
-
-      
+       
         public async Task<IActionResult> Transfer(string? id)
         {
             var user = await userManager.GetUserAsync(User);
@@ -124,14 +111,16 @@ namespace MiniPCoded.Controllers
             return View(transfer);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Transfer(TransferViewModel model)
         {
             var user = await userManager.GetUserAsync(User);
-            var transferie = await userManager.FindByIdAsync(model.TargetId);
-            if (transferie == null)
+            var transfer = await userManager.FindByIdAsync(model.TargetId);
+
+            if (transfer == null)
             {
-                ModelState.AddModelError("UserNotFound", "User Not Found");
+                ModelState.AddModelError("UserNotFound", "The specified user could not be located.");
                 ViewBag.Balance = user.Balance;
                 return View(model);
             }
@@ -142,14 +131,14 @@ namespace MiniPCoded.Controllers
                 return View(model);
             }
 
-            if (user.Balance - model.Amount < 0)
+            if (user.Balance < model.Amount)
             {
-                ModelState.AddModelError("Insufficient", "You cannot transfer more than the available balance.");
+                ModelState.AddModelError("InsufficientFunds", "Insufficient balance for this transfer.");
                 ViewBag.Balance = user.Balance;
                 return View(model);
             }
 
-            Models.Transaction tran = new Models.Transaction()
+            var transaction = new Models.Transaction
             {
                 Amount = model.Amount,
                 Type = Models.Transaction.TransactionType.Transfer,
@@ -157,21 +146,21 @@ namespace MiniPCoded.Controllers
                 ApplicationUserId = user.Id
             };
 
-            db.Transactions.Add(tran);
+            db.Transactions.Add(transaction);
             db.SaveChanges();
 
             user.Balance -= model.Amount;
-            transferie.Balance += model.Amount;
+            transfer.Balance += model.Amount;
 
-            var result = await userManager.UpdateAsync(user);
-            var result2 = await userManager.UpdateAsync(transferie);
+            var UserResult = await userManager.UpdateAsync(user);
+            var updateTransferResult = await userManager.UpdateAsync(transfer);
 
-            if (result.Succeeded && result2.Succeeded)
+            if (UserResult.Succeeded && updateTransferResult.Succeeded)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            foreach (var error in result.Errors)
+            foreach (var error in UserResult.Errors.Concat(updateTransferResult.Errors))
             {
                 ModelState.AddModelError(error.Code, error.Description);
             }
@@ -179,8 +168,6 @@ namespace MiniPCoded.Controllers
             ViewBag.Balance = user.Balance;
             return View(model);
         }
-
-
 
 
         public async Task<IActionResult> TransactionsList2(float? minAmount, float? maxAmount, DateTime? startDate, DateTime? endDate)

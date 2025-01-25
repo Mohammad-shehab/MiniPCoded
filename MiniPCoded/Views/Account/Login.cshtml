@@ -1,46 +1,45 @@
 ﻿@model LoginViewModel
+
 @{
     ViewData["Title"] = "Login";
 }
 
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Login</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="Login" method="post" class="mt-4">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
 
-<form asp-action="Login" method="post" style="width: 50%; margin: auto;">
-    <div asp-validation-summary="All"></div>
-    <table class="styled-table">
-        <tr>
-            <td><label asp-for="Email"></label></td>
-            <td>
-                <input asp-for="Email" class="form-control" />
-                <span class="alert-danger" asp-validation-for="Email" style="color: red;"></span>
-            </td>
-        </tr>
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                </div>
 
-        <tr>
-            <td><label asp-for="Password"></label></td>
-            <td>
-                <input asp-for="Password" class="form-control" type="password" />
-                <span class="alert-danger" asp-validation-for="Password" style="color: red;"></span>
-            </td>
-        </tr>
+                <div class="form-group mb-3 form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
 
-        <tr>
-            <td><label asp-for="RememberMe"></label></td>
-            <td>
-                <input asp-for="RememberMe" class="form-check-input" />
-            </td>
-        </tr>
-
-        <td colspan="2" style="text-align: center; padding: 10px;">
-            <input type="submit" class="btn btn-success" value="Login" style="margin-right: 10px;" />
-            <a asp-action="RegisterStep1" class="btn btn-secondary">Create Account</a>
-        </td>
-        </tr>
-    </table>
-    <div class="text-danger" style="text-align: center; margin-top: 10px;">
-        @Html.ValidationSummary()
+                <div class="form-group text-center">
+                    <input type="submit" class="btn btn-outline-success mx-2" value="Login" />
+                    <a asp-action="RegisterStep1" class="btn btn-outline-secondary">Create Account</a>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center text-muted">
+            <small>Secure Banking © 2025</small>
+        </div>
     </div>
-</form>
-
+</div>
 
 <style>
     .styled-table {
@@ -71,4 +70,3 @@
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-

@@ -14,7 +14,6 @@ namespace MiniPCoded.Controllers
             #region injected services 
             private  UserManager<ApplicationUser> userManager;
             private  SignInManager<ApplicationUser> signinManager;
-            private  IWebHostEnvironment webHostEnvironment;
 
         public AccountController(SignInManager<ApplicationUser> _signinManager, UserManager<ApplicationUser> _usermanager)
             {
@@ -151,7 +150,10 @@ namespace MiniPCoded.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            public IActionResult AccessDenied()
+
+
+           [AllowAnonymous]
+           public IActionResult AccessDenied()
             {
                 return View();
             }
