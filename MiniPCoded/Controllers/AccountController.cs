@@ -110,14 +110,7 @@ namespace MiniPCoded.Controllers
                 return View(model);
             }
 
-
-
-
             [AllowAnonymous]
-
-
-            [HttpGet]
-
             public IActionResult Login()
             {
                 return View();

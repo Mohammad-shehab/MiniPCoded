@@ -1,4 +1,4 @@
-﻿@model MiniPCoded.Models.ViewModels.EditViewModel
+﻿@model EditViewModel
 
 @{
     ViewData["Title"] = "EditAccountDetails";
@@ -21,7 +21,7 @@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div>class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ProfilePicturePath" class="control-label"></label>
-                    <input asp-for="ProfilePicturePath" type="file" class="form-control" />
+                    <input asp-for="ProfilePicturePath" class="form-control-file" type="file" />
                     <span asp-validation-for="ProfilePicturePath" class="text-danger"></span>
                 </div>
                 <div class="form-group">

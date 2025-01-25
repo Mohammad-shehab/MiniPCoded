@@ -33,25 +33,27 @@ namespace MiniPCoded.Controllers
 
         #endregion
 
-        public async Task<IActionResult> TransactionsList()
-        {
-            var mylist = await userManager.GetUserAsync(User);
-            var transactions = db.Transactions.Where(user => user.ApplicationUserId == mylist.Id)
-            .Select(user => new TransactionViewModel
-            {
-                Amount = user.Amount,
-                TransactionDate = user.TransactionDate,
-                Type = (TransactionViewModel.TransactionType)user.Type
-            }).ToList();
-            return View(transactions);
-        }
+        //public async Task<IActionResult> TransactionsList()
+        //{
+        //    var mylist = await userManager.GetUserAsync(User);
+        //    var transactions = db.Transactions.Where(user => user.ApplicationUserId == mylist.Id)
+        //    .Select(user => new TransactionViewModel
+        //    {
+        //        Amount = user.Amount,
+        //        TransactionDate = user.TransactionDate,
+        //        Type = (TransactionViewModel.TransactionType)user.Type
+        //    }).ToList();
+        //    return View(transactions);
+        //}
 
 
         public async Task<IActionResult> Transaction()
         {
-            var r = await userManager.GetUserAsync(User);
-            if (r == null) { return NotFound(); }
-            ViewBag.Balance = r.Balance;
+            var user = await userManager.GetUserAsync(User);
+            if (user == null) {
+                return NotFound(); 
+            }
+            ViewBag.Balance = user.Balance;
             return View();
         }
 
@@ -72,7 +74,7 @@ namespace MiniPCoded.Controllers
 
             if (choice == "Withdraw" && (user.Balance - model.Amount) < 0)
             {
-                ModelState.AddModelError("Insufficient", "You cannot withdraw more than the available balance.");
+                ModelState.AddModelError("Insufficient", "You dont have enough to complete your transaction.");
                 ViewBag.Balance = user.Balance;
                 return View(model);
             }
@@ -181,44 +183,48 @@ namespace MiniPCoded.Controllers
 
 
 
-        public async Task<IActionResult> TransactionsList2(string transactionType, float? minAmount, float? maxAmount, DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> TransactionsList2(float? minAmount, float? maxAmount, DateTime? startDate, DateTime? endDate)
         {
             var user = await userManager.GetUserAsync(User);
-            var query = db.Transactions.Where(t => t.ApplicationUserId == user.Id);
 
-            if (!string.IsNullOrEmpty(transactionType))
+            if (user == null)
             {
-                query = query.Where(t => t.Type.ToString() == transactionType);
+                return RedirectToAction("Login", "Account");
             }
+
+            var transactionsQuery = db.Transactions
+                .Where(t => t.ApplicationUserId == user.Id)
+                .AsQueryable();
+
             if (minAmount.HasValue)
             {
-                query = query.Where(t => t.Amount >= minAmount.Value);
-            }
-            if (maxAmount.HasValue)
-            {
-                query = query.Where(t => t.Amount <= maxAmount.Value);
-            }
-            if (startDate.HasValue)
-            {
-                query = query.Where(t => t.TransactionDate >= startDate.Value);
-            }
-            if (endDate.HasValue)
-            {
-                query = query.Where(t => t.TransactionDate <= endDate.Value);
+                transactionsQuery = transactionsQuery.Where(t => t.Amount >= minAmount.Value);
             }
 
-            var transactions = await query
-                .Select(t => new TransactionViewModel
-                {
-                    Amount = t.Amount,
-                    TransactionDate = t.TransactionDate,
-                    Type = (TransactionViewModel.TransactionType)t.Type
-                }).ToListAsync();
+            if (maxAmount.HasValue)
+            {
+                transactionsQuery = transactionsQuery.Where(t => t.Amount <= maxAmount.Value);
+            }
+
+            if (startDate.HasValue)
+            {
+                transactionsQuery = transactionsQuery.Where(t => t.TransactionDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                transactionsQuery = transactionsQuery.Where(t => t.TransactionDate <= endDate.Value);
+            }
+
+
+
+            var transactions = await transactionsQuery
+                .OrderByDescending(t => t.TransactionDate)
+                .ToListAsync();
 
             return View(transactions);
         }
 
 
-
-    }
+        }
 }

@@ -9,7 +9,7 @@ using MiniPCoded.Models;
 using MiniPCoded.Models.ViewModels;
 
 
-namespace MPBankMiniProject.Controllers
+namespace MiniPCoded.Controllers
 {
     public class HomeController : Controller
     {
@@ -32,7 +32,6 @@ namespace MPBankMiniProject.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // ADD view Model
             var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -78,23 +77,7 @@ namespace MPBankMiniProject.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AllUsers()
-        {
-            var currentUser = await userManager.GetUserAsync(User);
 
-            var users = userManager.Users
-                .Where(user => user.Id != currentUser.Id)
-                .Select(user => new IndexViewModel
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Balance = user.Balance,
-                    ProfilePicturePath = user.ProfilePicturePath
-                }).ToList();
-
-            return View(users);
-        }
 
 
 
@@ -117,47 +100,40 @@ namespace MPBankMiniProject.Controllers
 
         }
 
+
         [HttpPost]
         public async Task<IActionResult> EditAccountDetails(EditViewModel model)
         {
-            if (ModelState.IsValid)
+          
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
             {
-                var user = await userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                if (model.ProfilePicturePath != null)
-                {
-                    string pic = UploadFile(model.ProfilePicturePath);
-                    user.ProfilePicturePath = pic;
-                }
-
-                var result = await userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("AccountDetails");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-
+                return RedirectToAction("Login", "Account");
             }
+
+
+            user.Email = model.Email;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.ProfilePicturePath = model.ProfilePicturePath;
+            var result = await userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
             return View(model);
         }
 
-        private string UploadFile(object newImg)
-        {
-            throw new NotImplementedException();
-        }
+      
 
-
+  
 
         [HttpGet]
         public async Task<IActionResult> Allusers()
@@ -176,19 +152,7 @@ namespace MPBankMiniProject.Controllers
 
             return View(users);
         }
-        //public async Task<IActionResult> TransactionsList()
-        //{
-        //    var curr = await userManager.GetUserAsync(User);
-        //    var transactions = db.Transactions.Where(tran => tran.ApplicationUserId == curr.Id)
-        //    .Select(tran => new TransactionViewModel
-        //    {
-        //        Amount = tran.Amount,
-        //        TransactionDate = tran.TransactionDate,
-        //        Type = (TransactionViewModel.TransactionType)tran.Type
-        //    }).ToList();
-        //    return View(transactions);
-        //}
-
+  
 
     }
 }

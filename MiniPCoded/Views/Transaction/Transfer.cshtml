@@ -6,8 +6,7 @@
     ViewData["Title"] = "Transfer";
 }
 
-<h1>Transfer Money</h1>
-<h4>Balance: :@ViewBag.Balance</h4>
+<h4> Current Balance: :@ViewBag.Balance</h4>
 <form asp-action="Transfer" asp-controller="Transaction" method="post">
 	<div asp-validation-summary="All" class="text-danger"></div>
 	<div class="form-group">
@@ -22,4 +21,4 @@
 		<input type="submit" class="btn btn-primary" value="Transfer" />
 </form>
 
-<a asp-action="DisplayAllUsers" asp-controller="Home" class="btn btn-outline-secondary">Go Back</a>
+<a asp-action="AllUsers" asp-controller="Home" class="btn btn-outline-secondary">Go Back</a>
