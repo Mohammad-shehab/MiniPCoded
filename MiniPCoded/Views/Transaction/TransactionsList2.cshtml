@@ -47,10 +47,11 @@
                 <tbody>
                     @foreach (var transaction in Model)
                     {
+                        var typeColor = transaction.Type == Transaction.TransactionType.Deposit ? "text-success" : "text-danger";
                         <tr>
                             <td>@transaction.Amount.ToString("C")</td>
                             <td>@transaction.TransactionDate.ToString("g")</td>
-                            <td>@transaction.Type</td>
+                            <td class="@typeColor">@transaction.Type</td>
                         </tr>
                     }
                 </tbody>
