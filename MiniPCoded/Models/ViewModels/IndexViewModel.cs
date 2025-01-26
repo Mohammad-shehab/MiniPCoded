@@ -21,7 +21,7 @@ namespace MiniPCoded.Models.ViewModels
             [Display(Name = "Email Address")]
             [Required(ErrorMessage = "Email is Required.")]
             [EmailAddress(ErrorMessage = "Please enter a valid Email Address.")]
-            [MinLength(6, ErrorMessage = "Email Address must be at least 6 characters long.")]
+            [MinLength(6, ErrorMessage = "Email Address must be at least 6 charcters.")]
             public string Email { get; set; }
 
             [Required]

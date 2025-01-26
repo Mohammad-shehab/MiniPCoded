@@ -55,7 +55,7 @@ namespace MiniPCoded.Controllers
 
             [AllowAnonymous]
             [HttpPost]
-            public async Task<IActionResult> RegisterStep2(RegisterStep2ViewModel model)
+            public async Task<IActionResult> RegisterStep2(RegisterStep2ViewModel model, IFormFile profilePicture)
             {
                 if (ModelState.IsValid)
                 {
@@ -76,7 +76,7 @@ namespace MiniPCoded.Controllers
                         {
                             await model.ProfilePicture.CopyToAsync(stream);
                         }
-                        imagePath = "/images/" + model.ProfilePicture.FileName;
+                        imagePath = "~/images/" + model.ProfilePicture.FileName;
                     }
 
                     ApplicationUser user = new ApplicationUser
