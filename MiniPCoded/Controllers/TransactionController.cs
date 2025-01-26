@@ -21,7 +21,7 @@ namespace MiniPCoded.Controllers
         private SignInManager<ApplicationUser> signInManager;
         private ApplicationDbContext db;
 
-        public TransactionController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext, IWebHostEnvironment hostEnvironment)
+        public TransactionController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext)
         {
             userManager = _userManager;
             signInManager = _signInManager;

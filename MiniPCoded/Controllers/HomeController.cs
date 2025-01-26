@@ -113,13 +113,13 @@ namespace MiniPCoded.Controllers
             string imagePath = user.ProfilePicturePath;
             if (profilePicture != null)
             {
-                var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                if (!Directory.Exists(uploadsDir))
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                if (!Directory.Exists(uploads))
                 {
-                    Directory.CreateDirectory(uploadsDir);
+                    Directory.CreateDirectory(uploads);
                 }
 
-                var filePath = Path.Combine(uploadsDir, profilePicture.FileName);
+                var filePath = Path.Combine(uploads, profilePicture.FileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await profilePicture.CopyToAsync(stream);
