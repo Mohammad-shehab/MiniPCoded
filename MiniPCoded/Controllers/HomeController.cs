@@ -19,7 +19,7 @@ namespace MiniPCoded.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
         private ApplicationDbContext db;
-        public HomeController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext, IWebHostEnvironment hostEnvironment)
+        public HomeController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext)
         {
             userManager = _userManager;
             signInManager = _signInManager;
@@ -111,20 +111,22 @@ namespace MiniPCoded.Controllers
 
             // Retain the current profile picture path if no new picture is uploaded
             string imagePath = user.ProfilePicturePath;
-            if (profilePicture != null)
+            if (profilePicture != null && profilePicture.Length > 0)
             {
-                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                if (!Directory.Exists(uploads))
+                var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                if (!Directory.Exists(uploadsDir))
                 {
-                    Directory.CreateDirectory(uploads);
+                    Directory.CreateDirectory(uploadsDir);
                 }
 
-                var filePath = Path.Combine(uploads, profilePicture.FileName);
+                // Generate a unique file name to avoid overwriting existing files
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(profilePicture.FileName);
+                var filePath = Path.Combine(uploadsDir, uniqueFileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await profilePicture.CopyToAsync(stream);
                 }
-                imagePath = "/images/" + profilePicture.FileName;
+                imagePath = uniqueFileName;
             }
 
             user.Email = model.Email;
@@ -145,6 +147,7 @@ namespace MiniPCoded.Controllers
 
             return View(model);
         }
+
 
 
         public async Task<IActionResult> Allusers()

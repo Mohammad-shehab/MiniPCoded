@@ -76,7 +76,7 @@ namespace MiniPCoded.Controllers
                         {
                             await model.ProfilePicture.CopyToAsync(stream);
                         }
-                        imagePath = "~/images/" + model.ProfilePicture.FileName;
+                        imagePath =  model.ProfilePicture.FileName;
                     }
 
                     ApplicationUser user = new ApplicationUser
