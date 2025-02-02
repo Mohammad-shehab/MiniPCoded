@@ -6,16 +6,17 @@ using MiniPCoded.Models.ViewModels;
 
 namespace MiniPCoded.Controllers
 {
-    
-        [Authorize]
-        public class AccountController : Controller
+
+    [Authorize(Roles = "User")]
+    public class AccountController : Controller
         {
 
             #region injected services 
             private  UserManager<ApplicationUser> userManager;
             private  SignInManager<ApplicationUser> signinManager;
+            private  RoleManager<IdentityRole> roleManager;
 
-        public AccountController(SignInManager<ApplicationUser> _signinManager, UserManager<ApplicationUser> _usermanager)
+        public AccountController(SignInManager<ApplicationUser> _signinManager, UserManager<ApplicationUser> _usermanager,RoleManager<IdentityRole> roleManager)
             {
                 userManager = _usermanager;
                 signinManager = _signinManager;
@@ -91,13 +92,15 @@ namespace MiniPCoded.Controllers
                         Balance = 0,
                         AccountNumber = ApplicationUser.GenerateAccountNumber(),
                         ProfilePicturePath = imagePath // Add profile picture path
+                  
                     };
 
                     var result = await userManager.CreateAsync(user, password);
 
                     if (result.Succeeded)
                     {
-                        await signinManager.SignInAsync(user, isPersistent: false);
+                    await userManager.AddToRoleAsync(user, "User");
+                    await signinManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Index", "Home");
                     }
 
@@ -117,28 +120,55 @@ namespace MiniPCoded.Controllers
             [AllowAnonymous]
 
             [HttpPost]
-            public async Task<IActionResult> Login(LoginViewModel model)
+            //public async Task<IActionResult> Login(LoginViewModel model)
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        var result = await signinManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+
+
+
+            //        if (result.Succeeded)
+            //        {
+            //            return RedirectToAction("Index", "Home");
+            //        }
+
+
+            //        ModelState.AddModelError("", "Invalid Email or Password");
+            //    }
+            //    return View(model);
+            //}
+
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var result = await signinManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
                 {
-                    var result = await signinManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-
-
-
-
-                    if (result.Succeeded)
+                    var user = await userManager.FindByEmailAsync(model.Email);
+                    if (user != null)
                     {
-                        return RedirectToAction("Index", "Home");
+                        var roles = await userManager.GetRolesAsync(user);
+                        if (roles.Contains("Admin"))
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Administrator" });
+                        }
+                        else if (roles.Contains("User"))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
-
-
-                    ModelState.AddModelError("", "Invalid Email or Password");
                 }
-                return View(model);
+
+                ModelState.AddModelError("", "Invalid Email or Password");
             }
+            return View(model);
+        }
 
-
-            public IActionResult Logout(string? ghjk)
+        public IActionResult Logout(string? ghjk)
             {
                 return RedirectToAction("Index", "Home");
             }

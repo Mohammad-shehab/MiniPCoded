@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniPCoded.Models.ViewModels
 {
@@ -27,6 +29,7 @@ namespace MiniPCoded.Models.ViewModels
         [MinLength(12)]
         [MaxLength(12)]
         public string CivilID { get; set; }
+
 
 
     }

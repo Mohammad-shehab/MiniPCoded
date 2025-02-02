@@ -11,7 +11,7 @@ namespace MiniPCoded.Models.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        [MinLength(12)]
+        [MinLength(6)]
         public string Password { get; set; }
 
         [Required]

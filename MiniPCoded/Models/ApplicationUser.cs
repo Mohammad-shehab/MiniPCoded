@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace MiniPCoded.Models
 {
@@ -92,6 +94,7 @@ namespace MiniPCoded.Models
         public IList<Transaction>? Transactions { get; set; }
 
 
+ 
 
     }
 }
