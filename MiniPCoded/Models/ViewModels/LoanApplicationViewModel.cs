@@ -11,13 +11,11 @@ namespace MiniPCoded.Models.ViewModels
         public string ApplicationUserId { get; set; }
 
         [ForeignKey("ApplicationUserId")]
-
         public string UserId { get; set; }  //FK
 
         [Required(ErrorMessage = "Type amount")]
         [Range(0.01, float.MaxValue, ErrorMessage = "Loan amount must be a positive value.")]
         [Display(Name = "Loan Amount")]
-
         public float LoanAmount { get; set; }
 
         [Required]
@@ -31,5 +29,17 @@ namespace MiniPCoded.Models.ViewModels
         public LoanStatus Status { get; set; } = LoanStatus.Pending;
 
         public enum LoanStatus { Pending, Approved, Rejected }
+
+
+
+        public Duration duration{get; set;}
+        public enum Duration 
+        {
+            TwelveMonths = 12,
+            TwentyFourMonths = 24,
+            ThirtySixMonths = 36,
+            FortyEightMonths = 48,
+            SixtyMonths = 60
+        }
     }
 }

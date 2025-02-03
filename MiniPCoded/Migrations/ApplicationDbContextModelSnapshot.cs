@@ -309,7 +309,7 @@ namespace CPCoded.Migrations
             modelBuilder.Entity("CPCoded.Models.LoanApplication", b =>
                 {
                     b.HasOne("CPCoded.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("loanApplications")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -382,6 +382,8 @@ namespace CPCoded.Migrations
             modelBuilder.Entity("CPCoded.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Transactions");
+
+                    b.Navigation("loanApplications");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,27 +1,50 @@
-﻿@model IEnumerable<LoanApplication>
+﻿@using Microsoft.AspNetCore.Identity
+@using MiniPCoded.Models.ViewModels
+@inject UserManager<ApplicationUser> userManager;
+@model IEnumerable<LoanApplicationViewModel>
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
+	var userId = await userManager.GetUserAsync(User);
 }
 
 <h2>Loans</h2>
-<table class="table table-responsive">
-	<thead>
-		<tr>
-			<th>Date</th>
-			<th>Amount</th>
-			<th>Type</th>
-			<th>To</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var loan in Model)
-		{
+@if (!Model.Any())
+{
+	<br>
+	<!-- If the model is empty, show a message -->
+	<div class="alert alert-warning">
+		<h4 class="alert-heading">Table is Empty</h4>
+		<p>No loans found in the database.</p>
+		<p>Make a loan by making one above!</p>
+	</div>
+}
+else
+{
+	<table class="table table-responsive">
+		<thead>
 			<tr>
-				<td>@loan.Id</td>
-				<td>@loan.</td>
-				<td></td>
-				<td></td>
+				<th>ID</th>
+				<th>Amount</th>
+				<th>Duration</th>
+				<th>Date</th>
+				<th>Status</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (var loan in Model)
+			{
+				<tr>
+					<td>@loan.Id</td>
+					<td>@loan.LoanAmount</td>
+					<td>@loan.DurationInMonths</td>
+					<td>@loan.ApplicationDate</td>
+					<td>@loan.Status</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<a asp-action="ApplyLoan" asp-controller="Loan" asp-route-id="@userId" class="btn btn-outline-primary">Apply for Loan</a>
+}
+<a asp-action="ApplyLoan" asp-controller="Loan" asp-route-id="@userId" class="btn btn-outline-primary">Apply for Loan</a>
+
+

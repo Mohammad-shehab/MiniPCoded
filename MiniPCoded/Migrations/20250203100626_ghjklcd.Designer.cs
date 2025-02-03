@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CPCoded.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250203074500_gfhuji")]
-    partial class gfhuji
+    [Migration("20250203100626_ghjklcd")]
+    partial class ghjklcd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -312,7 +312,7 @@ namespace CPCoded.Migrations
             modelBuilder.Entity("CPCoded.Models.LoanApplication", b =>
                 {
                     b.HasOne("CPCoded.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("loanApplications")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -385,6 +385,8 @@ namespace CPCoded.Migrations
             modelBuilder.Entity("CPCoded.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Transactions");
+
+                    b.Navigation("loanApplications");
                 });
 #pragma warning restore 612, 618
         }
