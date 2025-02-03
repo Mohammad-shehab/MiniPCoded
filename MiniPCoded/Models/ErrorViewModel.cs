@@ -1,4 +1,4 @@
-namespace MiniPCoded.Models
+namespace CPCoded.Models
 {
     public class ErrorViewModel
     {

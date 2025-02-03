@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
-
-namespace CPCoded.Areas.Administrator.Controllers
+namespace CPCoded.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class HomeController : Controller
+    [Authorize(Roles = "User")]
+    public class LoanController : Controller
     {
-        [Area("Administrator")]
-
         public IActionResult Index()
         {
             return View();

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<LoanApplication>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Loans</h2>
+<table class="table table-responsive">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Amount</th>
+			<th>Type</th>
+			<th>To</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var loan in Model)
+		{
+			<tr>
+				<td>@loan.Id</td>
+				<td>@loan.</td>
+				<td></td>
+				<td></td>
+			</tr>
+		}
+	</tbody>
+</table>

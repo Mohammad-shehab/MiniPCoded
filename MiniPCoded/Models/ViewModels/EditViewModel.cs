@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MiniPCoded.Models.ViewModels
+namespace CPCoded.Models.ViewModels
 {
     public class EditViewModel
     {

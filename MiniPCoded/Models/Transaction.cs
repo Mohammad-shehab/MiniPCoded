@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MiniPCoded.Models
+namespace CPCoded.Models
 {
     public class Transaction
     {

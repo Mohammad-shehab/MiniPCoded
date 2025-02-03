@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MiniPCoded.Data;
-using MiniPCoded.Models;
+using CPCoded.Data;
+using CPCoded.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

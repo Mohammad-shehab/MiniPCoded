@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using MiniPCoded.Data;
-using MiniPCoded.Models;
-using MiniPCoded.Models.ViewModels;
+using CPCoded.Data;
+using CPCoded.Models;
+using CPCoded.Models.ViewModels;
 
 
-namespace MiniPCoded.Controllers
+namespace CPCoded.Controllers
 {
     [Authorize]
     public class HomeController : Controller
@@ -150,22 +150,22 @@ namespace MiniPCoded.Controllers
 
 
 
-        public async Task<IActionResult> Allusers()
-        {
-            var curr = await userManager.GetUserAsync(User);
-            var users = userManager.Users.Where(user => user.Id != curr.Id)
-            .Select(user => new IndexViewModel
-            {
-                Balance = user.Balance,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                ProfilePicturePath = user.ProfilePicturePath,
-                Id = user.Id
-            }).ToList();
+        //public async Task<IActionResult> Allusers()
+        //{
+        //    var curr = await userManager.GetUserAsync(User);
+        //    var users = userManager.Users.Where(user => user.Id != curr.Id)
+        //    .Select(user => new IndexViewModel
+        //    {
+        //        Balance = user.Balance,
+        //        Email = user.Email,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        ProfilePicturePath = user.ProfilePicturePath,
+        //        Id = user.Id
+        //    }).ToList();
 
-            return View(users);
-        }
+        //    return View(users);
+        //}
   
 
     }

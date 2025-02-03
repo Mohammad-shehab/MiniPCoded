@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
-namespace MiniPCoded.Models
+namespace CPCoded.Models
 {
     public class ApplicationUser : IdentityUser
     {
@@ -93,8 +93,9 @@ namespace MiniPCoded.Models
 
         public IList<Transaction>? Transactions { get; set; }
 
+        public IList<LoanApplication>? loanApplications { get; set; }
 
- 
+
 
     }
 }

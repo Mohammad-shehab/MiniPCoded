@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MiniPCoded.Data;
-using MiniPCoded.Models;
-using MiniPCoded.Models.ViewModels;
+using CPCoded.Data;
+using CPCoded.Models;
+using CPCoded.Models.ViewModels;
 
 
 
 
-namespace MiniPCoded.Controllers
+namespace CPCoded.Controllers
 {
     [Authorize]
 
@@ -96,79 +96,7 @@ namespace MiniPCoded.Controllers
             return View(model);
         }
 
-       
-        public async Task<IActionResult> Transfer(string? id)
-        {
-            var user = await userManager.GetUserAsync(User);
-
-            TransferViewModel transfer = new TransferViewModel()
-            {
-                Id = user.Id,
-                TargetId = id,
-                Amount = 0
-            };
-            ViewBag.Balance = user.Balance;
-            return View(transfer);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Transfer(TransferViewModel model)
-        {
-            var user = await userManager.GetUserAsync(User);
-            var transfer = await userManager.FindByIdAsync(model.TargetId);
-
-            if (transfer == null)
-            {
-                ModelState.AddModelError("UserNotFound", "The specified user could not be located.");
-                ViewBag.Balance = user.Balance;
-                return View(model);
-            }
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Balance = user.Balance;
-                return View(model);
-            }
-
-            if (user.Balance < model.Amount)
-            {
-                ModelState.AddModelError("InsufficientFunds", "Insufficient balance for this transfer.");
-                ViewBag.Balance = user.Balance;
-                return View(model);
-            }
-
-            var transaction = new Models.Transaction
-            {
-                Amount = model.Amount,
-                Type = Models.Transaction.TransactionType.Transfer,
-                TransactionDate = DateTime.Now,
-                ApplicationUserId = user.Id
-            };
-
-            db.Transactions.Add(transaction);
-            db.SaveChanges();
-
-            user.Balance -= model.Amount;
-            transfer.Balance += model.Amount;
-
-            var UserResult = await userManager.UpdateAsync(user);
-            var updateTransferResult = await userManager.UpdateAsync(transfer);
-
-            if (UserResult.Succeeded && updateTransferResult.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            foreach (var error in UserResult.Errors.Concat(updateTransferResult.Errors))
-            {
-                ModelState.AddModelError(error.Code, error.Description);
-            }
-
-            ViewBag.Balance = user.Balance;
-            return View(model);
-        }
-
+     
 
         public async Task<IActionResult> TransactionsList2(float? minAmount, float? maxAmount, DateTime? startDate, DateTime? endDate)
         {

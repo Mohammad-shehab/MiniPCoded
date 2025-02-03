@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MiniPCoded.Models.ViewModels
+namespace CPCoded.Models.ViewModels
 {
     public class RegisterStep2ViewModel
     {

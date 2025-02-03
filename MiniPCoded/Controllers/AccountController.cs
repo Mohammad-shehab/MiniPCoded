@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MiniPCoded.Models;
-using MiniPCoded.Models.ViewModels;
+using CPCoded.Models;
+using CPCoded.Models.ViewModels;
 
-namespace MiniPCoded.Controllers
+namespace CPCoded.Controllers
 {
 
     [Authorize(Roles = "User")]

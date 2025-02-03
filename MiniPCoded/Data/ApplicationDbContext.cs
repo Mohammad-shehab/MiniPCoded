@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MiniPCoded.Models;
+using CPCoded.Models;
 
-namespace MiniPCoded.Data
+namespace CPCoded.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -13,6 +13,7 @@ namespace MiniPCoded.Data
 
 
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<LoanApplication> LoanApplications { get; set; }
 
 
 

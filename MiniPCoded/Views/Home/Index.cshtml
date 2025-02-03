@@ -15,8 +15,9 @@
             </div>
 
             <p class="h4 text-success mb-4">Total Balance: @Model.Balance.ToString("C")</p>
+            <a asp-action="Index" asp-controller="Loan" class="btn btn-outline-primary">Apply for a Loan</a>
 
-            <a asp-action="Transaction" asp-controller="Transaction" class="btn btn-outline-primary">Make a Transaction</a>
+            <a asp-action="Transaction"  asp-controller="Transaction" class="btn btn-outline-primary">Make a Transaction</a>
         </div>
         <div class="card-footer text-center text-muted">
             <small>Secure Banking © 2025</small>
