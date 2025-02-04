@@ -12,7 +12,9 @@ using CPCoded.Models.ViewModels;
 
 namespace CPCoded.Controllers
 {
-    [Authorize]
+
+    [Authorize(Roles = "User")]
+
     public class HomeController : Controller
     {
         #region InjectedServices

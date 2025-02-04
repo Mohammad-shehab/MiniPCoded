@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MiniPCoded.Models.ViewModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using CPCcoded.Models.ViewModels;
 
 namespace CPCoded.Controllers
 {
@@ -16,17 +14,18 @@ namespace CPCoded.Controllers
     public class LoanController : Controller
     {
         #region InjectedServices
-        private UserManager<ApplicationUser> userManager;
-        private SignInManager<ApplicationUser> signInManager;
-        private ApplicationDbContext db;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ApplicationDbContext db;
+
         public LoanController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, ApplicationDbContext _applicatioDbContext)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             db = _applicatioDbContext;
-
         }
         #endregion
+
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
@@ -37,15 +36,6 @@ namespace CPCoded.Controllers
 
             var loanApplications = await db.LoanApplications
                 .Where(loan => loan.ApplicationUserId == user.Id)
-                .Select(loan => new LoanApplicationViewModel
-                {
-                    Id = loan.Id,
-                    ApplicationUserId = loan.ApplicationUserId,
-                    UserId = loan.ApplicationUserId,
-                    LoanAmount = loan.LoanAmount,
-                    //DurationInMonths = (LoanApplicationViewModel.Duration)user.Durations,
-                    ApplicationDate = loan.ApplicationDate,
-                })
                 .ToListAsync();
 
             return View(loanApplications);
@@ -54,14 +44,38 @@ namespace CPCoded.Controllers
         public async Task<IActionResult> ApplyLoan()
         {
             var currentUser = await userManager.GetUserAsync(User);
-            
+
+            // Add Type enum values to ViewBag
+            ViewBag.Types = Enum.GetValues(typeof(LoanApplication.Type))
+                                .Cast<LoanApplication.Type>()
+                                .Select(t => new SelectListItem
+                                {
+                                    Value = t.ToString(),
+                                    Text = t.ToString()
+                                }).ToList();
+
+            // Add Duration enum values to ViewBag
+            ViewBag.Durations = Enum.GetValues(typeof(LoanApplication.Duration))
+                                    .Cast<LoanApplication.Duration>()
+                                    .Select(d => new SelectListItem
+                                    {
+                                        Value = ((int)d).ToString(),
+                                        Text = ((int)d).ToString()
+                                    }).ToList();
 
             if (currentUser == null)
             {
-                return NotFound();           
+                return NotFound();
             }
-            return View();
+
+            var model = new LoanApplicationViewModel
+            {
+                ApplicationUserId = currentUser.Id // Set ApplicationUserId to the current user's ID
+            };
+
+            return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> ApplyLoan(LoanApplicationViewModel model)
         {
@@ -69,23 +83,43 @@ namespace CPCoded.Controllers
 
             if (!ModelState.IsValid)
             {
+                // Re-populate ViewBag in case of validation errors
+                ViewBag.Types = Enum.GetValues(typeof(LoanApplication.Type))
+                                    .Cast<LoanApplication.Type>()
+                                    .Select(t => new SelectListItem
+                                    {
+                                        Value = t.ToString(),
+                                        Text = t.ToString()
+                                    }).ToList();
+
+                ViewBag.Durations = Enum.GetValues(typeof(LoanApplication.Duration))
+                                        .Cast<LoanApplication.Duration>()
+                                        .Select(d => new SelectListItem
+                                        {
+                                            Value = ((int)d).ToString(),
+                                            Text = ((int)d).ToString()
+                                        }).ToList();
+
                 return View(model);
             }
+
             LoanApplication loan = new LoanApplication
             {
                 ApplicationDate = model.ApplicationDate,
-                ApplicationUserId = model.ApplicationUserId,
-                DurationInMonths = (LoanApplication.Duration)model.DurationInMonths,
+                ApplicationUserId = currentUser.Id, // Ensure ApplicationUserId is set to the current user's ID
+                DurationInMonths = model.Duration,
                 LoanAmount = model.LoanAmount,
-                Status = LoanApplication.LoanStatus.Pending
+                Status = model.Status,
+                LoanType = model.LoanType
             };
-
 
             db.LoanApplications.Add(loan);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
+
+
+
     }
 }
-

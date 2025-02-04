@@ -1,51 +1,35 @@
-﻿@model MiniPCoded.Models.ViewModels.LoanApplicationViewModel
-
+﻿@using CPCcoded.Models.ViewModels
+@model LoanApplicationViewModel
 @{
-    ViewData["Title"] = "ApplyLoan";
+    ViewData["Title"] = "Apply for Loan";
 }
 
-<h1>ApplyLoan</h1>
+<h2>Apply for Loan</h2>
 
-<h4>LoanApplicationViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="ApplyLoan">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-         
-         
-            <div class="form-group">
-                <label asp-for="LoanAmount" class="control-label"></label>
-                <input asp-for="LoanAmount" class="form-control" />
-                <span asp-validation-for="LoanAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="DurationInMonths" class="form-label"></label>
-                <select asp-for="DurationInMonths" class="form-control">
-                    <option value="-1" class="text-center">-- Select --</option>
-                    <option value="0">12</option>
-                    <option value="1">24</option>
-                    <option value="2">36</option>
-                    <option value="3">48</option>
-                    <option value="5">60</option>
-                </select>
-                <span asp-validation-for="DurationInMonths" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApplicationDate" class="control-label"></label>
-                <input asp-for="ApplicationDate" class="form-control" />
-                <span asp-validation-for="ApplicationDate" class="text-danger"></span>
-            </div>
-
-      
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="ApplyLoan" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="ApplicationUserId" />
+    <div class="form-group">
+        <label asp-for="LoanAmount" class="control-label"></label>
+        <input asp-for="LoanAmount" class="form-control" />
+        <span asp-validation-for="LoanAmount" class="text-danger"></span>
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="Duration" class="control-label"></label>
+        <select asp-for="Duration" class="form-control" asp-items="ViewBag.Durations"></select>
+        <span asp-validation-for="Duration" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LoanType" class="control-label"></label>
+        <select asp-for="LoanType" class="form-control" asp-items="ViewBag.Types"></select>
+        <span asp-validation-for="LoanType" class="text-danger"></span>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="form-group">
+        <input type="submit" value="Apply" class="btn btn-primary" />
+    </div>
+</form>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -39,25 +39,9 @@ namespace CPCoded.Models.ViewModels
         public enum Genders { Male, Female }
 
 
-
-
-
-
-
-
-
-
-
-
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Account number must be a positive integer.")]
         public int AccountNumber { get; set; } = GenerateAccountNumber();
-
-
-
-
-
-
 
 
         // Method to generate a unique account number
@@ -66,20 +50,6 @@ namespace CPCoded.Models.ViewModels
             var random = new Random();
             return random.Next(1, int.MaxValue);
         }
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
 
         [Required(ErrorMessage = "Enter Date of Birth")]
         [DataType(DataType.Date)]

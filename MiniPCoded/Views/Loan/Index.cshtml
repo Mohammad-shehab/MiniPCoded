@@ -1,50 +1,50 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using MiniPCoded.Models.ViewModels
+@using CPCoded.Models
 @inject UserManager<ApplicationUser> userManager;
-@model IEnumerable<LoanApplicationViewModel>
+@model IEnumerable<LoanApplication>
 @{
-	ViewData["Title"] = "Index";
-	var userId = await userManager.GetUserAsync(User);
+    ViewData["Title"] = "Index";
 }
 
 <h2>Loans</h2>
 @if (!Model.Any())
 {
-	<br>
-	<!-- If the model is empty, show a message -->
-	<div class="alert alert-warning">
-		<h4 class="alert-heading">Table is Empty</h4>
-		<p>No loans found in the database.</p>
-		<p>Make a loan by making one above!</p>
-	</div>
+    <a asp-action="Index"></a>
+    <br>
+    <!-- If the model is empty, show a message -->
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">Table is Empty</h4>
+        <p>No loans found in the database.</p>
+        <p>Make a loan by making one above!</p>
+    </div>
 }
 else
 {
-	<table class="table table-responsive">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Amount</th>
-				<th>Duration</th>
-				<th>Date</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var loan in Model)
-			{
-				<tr>
-					<td>@loan.Id</td>
-					<td>@loan.LoanAmount</td>
-					<td>@loan.DurationInMonths</td>
-					<td>@loan.ApplicationDate</td>
-					<td>@loan.Status</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-	<a asp-action="ApplyLoan" asp-controller="Loan" asp-route-id="@userId" class="btn btn-outline-primary">Apply for Loan</a>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Duration (Months)</th>
+                <th>Loan Type</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var loan in Model)
+            {
+                <tr>
+                    <td>@loan.Id</td>
+                    <td>@loan.LoanAmount</td>
+                    <td>@((int)loan.DurationInMonths)</td>
+                    <td>@loan.LoanType</td>
+                    <td>@loan.ApplicationDate.ToString("yyyy-MM-dd")</td>
+                    <td>@loan.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="ApplyLoan" asp-controller="Loan" class="btn btn-outline-primary">Apply for Loan</a>
 }
-<a asp-action="ApplyLoan" asp-controller="Loan" asp-route-id="@userId" class="btn btn-outline-primary">Apply for Loan</a>
-
-
+<a asp-action="ApplyLoan" asp-controller="Loan" class="btn btn-outline-primary">Apply for Loan</a>

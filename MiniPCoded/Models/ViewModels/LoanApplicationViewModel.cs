@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using CPCoded.Models;
 
-namespace MiniPCoded.Models.ViewModels
+namespace CPCcoded.Models.ViewModels
 {
     public class LoanApplicationViewModel
     {
@@ -10,36 +11,21 @@ namespace MiniPCoded.Models.ViewModels
         [Required]
         public string ApplicationUserId { get; set; }
 
-        [ForeignKey("ApplicationUserId")]
-        public string UserId { get; set; }  //FK
-
         [Required(ErrorMessage = "Type amount")]
         [Range(0.01, float.MaxValue, ErrorMessage = "Loan amount must be a positive value.")]
         [Display(Name = "Loan Amount")]
         public float LoanAmount { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Duration must be a positive integer.")]
-        public int DurationInMonths { get; set; }
-
-        [Required]
         public DateTime ApplicationDate { get; set; } = DateTime.Now;
 
         [Required]
-        public LoanStatus Status { get; set; } = LoanStatus.Pending;
+        public LoanApplication.LoanStatus Status { get; set; } = LoanApplication.LoanStatus.Pending;
 
-        public enum LoanStatus { Pending, Approved, Rejected }
+        [Required]
+        public LoanApplication.Duration Duration { get; set; }
 
-
-
-        public Duration duration{get; set;}
-        public enum Duration 
-        {
-            TwelveMonths = 12,
-            TwentyFourMonths = 24,
-            ThirtySixMonths = 36,
-            FortyEightMonths = 48,
-            SixtyMonths = 60
-        }
+        [Required]
+        public LoanApplication.Type LoanType { get; set; }
     }
 }

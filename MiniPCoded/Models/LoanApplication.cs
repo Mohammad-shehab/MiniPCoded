@@ -39,5 +39,13 @@ namespace CPCoded.Models
             FortyEightMonths = 48,
             SixtyMonths = 60
         }
+
+        [Required]
+        public Type LoanType { get; set; }
+
+        public enum Type
+        {
+            Housing, Consumer, Auto, Medical
+        }
     }
 }
