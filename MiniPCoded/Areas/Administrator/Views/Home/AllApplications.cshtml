@@ -68,6 +68,10 @@
                             <input type="hidden" name="id" value="@item.Id" />
                             <button type="submit" class="btn btn-outline-success">Accept</button>
                         </form>
+                        <form asp-action="Reject" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-outline-success">Reject</button>
+                        </form>
                     }
                     <a asp-action="AccountDetails" asp-controller="Home" asp-route-id="@item.ApplicationUserId" class="btn btn-outline-primary">Details</a>
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
