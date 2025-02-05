@@ -1,0 +1,60 @@
+﻿@model LoanRepaymentViewModel
+@{
+    ViewData["Title"] = "Repay Loan";
+}
+
+<h2>Repay Loan</h2>
+
+<form asp-action="RepayLoan" asp-controller="Loan" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="PayFull" class="control-label"></label>
+        <input asp-for="PayFull" type="checkbox" class="form-check-input" id="payFullCheckbox" />
+        <span asp-validation-for="PayFull" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AmountPaid" class="control-label"></label>
+        <input asp-for="AmountPaid" class="form-control" id="amountPaidInput" />
+        <span asp-validation-for="AmountPaid" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Repay" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <h4>Remaining Balance: @Model.RemainingBalance</h4>
+</div>
+
+<div id="monthlyPaymentsSection">
+    <h4>Monthly Payments</h4>
+    <ul>
+        @foreach (var payment in Model.MonthlyPayments)
+        {
+            <li>Month @payment.Month: @payment.DueDate.ToShortDateString() - Amount: @payment.Amount</li>
+        }
+    </ul>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('payFullCheckbox').addEventListener('change', function () {
+            var payFull = this.checked;
+            var amountPaidInput = document.getElementById('amountPaidInput');
+            var monthlyPaymentsSection = document.getElementById('monthlyPaymentsSection');
+
+            if (payFull) {
+                amountPaidInput.value = '@Model.RemainingBalance';
+                monthlyPaymentsSection.style.display = 'none';
+            } else {
+                amountPaidInput.value = '';
+                monthlyPaymentsSection.style.display = 'block';
+            }
+        });
+
+        // Initialize the state based on the checkbox
+        document.getElementById('payFullCheckbox').dispatchEvent(new Event('change'));
+    </script>
+}

@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using CPCoded.Models;
 
-namespace CPCcoded.Models.ViewModels
+namespace CPCoded.Models.ViewModels
 {
     public class LoanApplicationViewModel
     {
@@ -27,5 +26,12 @@ namespace CPCcoded.Models.ViewModels
 
         [Required]
         public LoanApplication.Type LoanType { get; set; }
+
+        [Display(Name = "Interest Rate (%)")]
+        public float InterestRate { get; set; } = 5.0f; // Fixed interest rate
+
+        public float TotalInterest => LoanAmount * (InterestRate / 100) * ((int)Duration / 12);
+
+        public float TotalRepayment => LoanAmount + TotalInterest;
     }
 }

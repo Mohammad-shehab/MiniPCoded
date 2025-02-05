@@ -1,5 +1,9 @@
 html {
     font-size: 14px;
+    html
+
+{
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -29,7 +33,7 @@ body {
 }
 
 h1 {
-    color: #007bff;
+    color: #000080;
     text-align: center;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
@@ -71,7 +75,7 @@ button {
     }
 
     .card h2 {
-        color: #007bff;
+        color: #000080;
         font-size: 1.6em;
         margin-bottom: 15px;
         text-align: center;
@@ -102,7 +106,7 @@ button {
     }
 
 .btn {
-    background-color: #007bff;
+    background-color: #000080;
     color: #fff;
     border: none;
     padding: 10px 15px;
@@ -112,19 +116,46 @@ button {
 }
 
     .btn:hover {
-        background-color: #0056b3;
+        background-color: #778899;
     }
 
 .dd {
     margin-left: 10px;
 }
-.vv{
-    background-color :white
 
+.vv {
+    background-color: white
 }
+
 .icon {
     border-radius: 50%;
-    width:40px; 
-    height:40px;
-
+    width: 40px;
+    height: 40px;
 }
+
+.icon2 {
+    width: 80px;
+    height: 80px;
+}
+
+h2 {
+    color: #000080;
+    text-align: left;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.ll {
+    border-block-color: #000080;
+}
+
+.loan-table {
+    border: 2px solid #000080;
+    border-collapse: collapse;
+}
+
+    .loan-table th, .loan-table td {
+        border: 1px solid #000080;
+        padding: 10px;
+        text-align: left;
+    }

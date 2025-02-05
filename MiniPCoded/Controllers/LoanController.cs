@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CPCcoded.Models.ViewModels;
 
 namespace CPCoded.Controllers
 {
@@ -25,7 +24,7 @@ namespace CPCoded.Controllers
             db = _applicatioDbContext;
         }
         #endregion
-
+        #region UserLoanActions
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
@@ -38,7 +37,7 @@ namespace CPCoded.Controllers
                 .Where(loan => loan.ApplicationUserId == user.Id)
                 .ToListAsync();
 
-            return View(loanApplications);
+            return View(loanApplications.Where(x => x.Status == LoanApplication.LoanStatus.Approved));
         }
 
         public async Task<IActionResult> ApplyLoan()
@@ -117,9 +116,129 @@ namespace CPCoded.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        #endregion
+        #region PaymentActions
+        public async Task<IActionResult> PaymentHistory()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var payments = await db.LoanRepayments
+                .Include(r => r.LoanApplication)
+                .Where(r => r.LoanApplication.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            return View(payments);
+        }
+        public async Task<IActionResult> RepayLoan(int? id)
+        {
+            var loan = await db.LoanApplications.FindAsync(id);
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            var model = new LoanRepaymentViewModel
+            {
+                LoanApplicationId = loan.Id,
+                RemainingBalance = loan.LoanAmount - db.LoanRepayments.Where(r => r.LoanApplicationId == loan.Id).Sum(r => r.AmountPaid)
+            };
+
+            // Generate monthly payments
+            var monthlyAmount = model.RemainingBalance / ((int)loan.DurationInMonths);
+            for (int i = 1; i <= ((int)loan.DurationInMonths); i++)
+            {
+                model.MonthlyPayments.Add(new MonthlyPayment
+                {
+                    Month = i,
+                    DueDate = loan.ApplicationDate.AddMonths(i),
+                    Amount = monthlyAmount
+                });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RepayLoan(LoanRepaymentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var loan = await db.LoanApplications.FindAsync(model.LoanApplicationId);
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var totalPaid = db.LoanRepayments.Where(r => r.LoanApplicationId == loan.Id).Sum(r => r.AmountPaid);
+            var remainingBalance = loan.LoanAmount - totalPaid;
+
+            if (model.PayFull)
+            {
+                if (model.AmountPaid != remainingBalance)
+                {
+                    ModelState.AddModelError("", "Payment amount must be equal to the remaining balance for full payment.");
+                    return View(model);
+                }
+            }
+            else
+            {
+                if (model.AmountPaid > remainingBalance)
+                {
+                    ModelState.AddModelError("", "Payment amount exceeds remaining balance.");
+                    return View(model);
+                }
+            }
+
+            if (user.Balance < (float)model.AmountPaid)
+            {
+                ModelState.AddModelError("", "Insufficient balance.");
+                return View(model);
+            }
+
+            user.Balance -= (float)model.AmountPaid;
+            var updateUserResult = await userManager.UpdateAsync(user);
+            if (!updateUserResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Failed to update user balance.");
+                return View(model);
+            }
+
+            var repayment = new LoanRepayment
+            {
+                LoanApplicationId = model.LoanApplicationId,
+                AmountPaid = model.AmountPaid,
+                PaymentDate = DateTime.Now,
+                TransactionReference = Guid.NewGuid().ToString() // Generate a unique transaction reference
+            };
+
+            db.LoanRepayments.Add(repayment);
+            await db.SaveChangesAsync();
+
+            // Update loan status if fully paid
+            if (remainingBalance - model.AmountPaid <= 0)
+            {
+                loan.Status = LoanApplication.LoanStatus.PaidOff;
+                db.LoanApplications.Update(loan);
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "Loan");
+        }
 
 
-
-
+        #endregion
     }
 }

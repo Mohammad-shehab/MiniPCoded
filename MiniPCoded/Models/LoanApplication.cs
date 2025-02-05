@@ -23,7 +23,9 @@ namespace CPCoded.Models
         [Required]
         public LoanStatus Status { get; set; } = LoanStatus.Pending;
 
-        public enum LoanStatus { Pending, Approved, Rejected }
+        public enum LoanStatus { Pending, Approved, Rejected,
+            PaidOff
+        }
 
         [Required]
         public string ApplicationUserId { get; set; }
