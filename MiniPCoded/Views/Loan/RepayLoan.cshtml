@@ -1,0 +1,30 @@
+﻿@model LoanRepaymentViewModel
+@{
+    ViewData["Title"] = "RepayLoan";
+}
+
+<h2>Repay Loan</h2>
+
+<form asp-action="RepayLoan" method="post">
+    <div class="form-group">
+        <label asp-for="AmountPaid" class="control-label"></label>
+        <input asp-for="AmountPaid" class="form-control" />
+        <span asp-validation-for="AmountPaid" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TransactionReference" class="control-label"></label>
+        <input asp-for="TransactionReference" class="form-control" />
+        <span asp-validation-for="TransactionReference" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Repay" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <h4>Remaining Balance: @Model.RemainingBalance</h4>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

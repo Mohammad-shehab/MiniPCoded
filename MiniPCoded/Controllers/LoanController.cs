@@ -25,7 +25,7 @@ namespace CPCoded.Controllers
             db = _applicatioDbContext;
         }
         #endregion
-
+        #region UserLoanActions
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
@@ -117,8 +117,86 @@ namespace CPCoded.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        #endregion
+        #region PaymentActions
+        public async Task<IActionResult> RepayLoan(int id)
+        {
+            var loan = await db.LoanApplications.FindAsync(id);
+            if (loan == null)
+            {
+                return NotFound();
+            }
 
+            var model = new LoanRepaymentViewModel
+            {
+                LoanApplicationId = loan.Id,
+                RemainingBalance = loan.LoanAmount - db.LoanRepayments.Where(r => r.LoanApplicationId == loan.Id).Sum(r => r.AmountPaid)
+            };
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RepayLoan(LoanRepaymentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var loan = await db.LoanApplications.FindAsync(model.LoanApplicationId);
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            var totalPaid = db.LoanRepayments.Where(r => r.LoanApplicationId == loan.Id).Sum(r => r.AmountPaid);
+            var remainingBalance = loan.LoanAmount - totalPaid;
+
+            if (model.AmountPaid > remainingBalance)
+            {
+                ModelState.AddModelError("", "Payment amount exceeds remaining balance.");
+                return View(model);
+            }
+
+            var repayment = new LoanRepayment
+            {
+                LoanApplicationId = model.LoanApplicationId,
+                AmountPaid = model.AmountPaid,
+                PaymentDate = DateTime.Now,
+                TransactionReference = model.TransactionReference
+            };
+
+            db.LoanRepayments.Add(repayment);
+            await db.SaveChangesAsync();
+
+            // Update loan status if fully paid
+            if (remainingBalance - model.AmountPaid <= 0)
+            {
+                loan.Status = LoanApplication.LoanStatus.PaidOff;
+                db.LoanApplications.Update(loan);
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> PaymentHistory()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var payments = await db.LoanRepayments
+                .Include(r => r.LoanApplication)
+                .Where(r => r.LoanApplication.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            return View(payments);
+        }
+        #endregion
 
 
     }

@@ -6,45 +6,51 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Loans</h2>
-@if (!Model.Any())
-{
-    <a asp-action="Index"></a>
-    <br>
-    <!-- If the model is empty, show a message -->
-    <div class="alert alert-warning">
-        <h4 class="alert-heading">Table is Empty</h4>
-        <p>No loans found in the database.</p>
-        <p>Make a loan by making one above!</p>
-    </div>
-}
-else
-{
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Amount</th>
-                <th>Duration (Months)</th>
-                <th>Loan Type</th>
-                <th>Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var loan in Model)
-            {
+<div class="ll">
+    <h2>Loans</h2>
+    @if (!Model.Any())
+    {
+        <a asp-action="Index"></a>
+        <br>
+        <a asp-action="PaymentHistory" asp-controller="Loan" class="btn btn-outline-primary">View Payment History</a>
+        <!-- If the model is empty, show a message -->
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">Table is Empty</h4>
+            <p>No loans found in the database.</p>
+            <p>Make a loan by making one above!</p>
+        </div>
+    }
+    else
+    {
+        <a asp-action="PaymentHistory" asp-controller="Loan" class="btn btn-outline-primary">View Payment History</a>
+        <table class="table table-responsive ">
+            <thead>
                 <tr>
-                    <td>@loan.Id</td>
-                    <td>@loan.LoanAmount</td>
-                    <td>@((int)loan.DurationInMonths)</td>
-                    <td>@loan.LoanType</td>
-                    <td>@loan.ApplicationDate.ToString("yyyy-MM-dd")</td>
-                    <td>@loan.Status</td>
+                    <th>ID</th>
+                    <th>Amount</th>
+                    <th>Duration (Months)</th>
+                    <th>Loan Type</th>
+                    <th>Date</th>
+                    <th>Status</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var loan in Model)
+                {
+                    <tr>
+                        <td>@loan.Id</td>
+                        <td>@loan.LoanAmount</td>
+                        <td>@((int)loan.DurationInMonths)</td>
+                        <td>@loan.LoanType</td>
+                        <td>@loan.ApplicationDate.ToString("yyyy-MM-dd")</td>
+                        <td>@loan.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a asp-action="ApplyLoan" asp-controller="Loan" class="btn btn-outline-primary">Apply for Loan</a>
+
+    }
     <a asp-action="ApplyLoan" asp-controller="Loan" class="btn btn-outline-primary">Apply for Loan</a>
-}
-<a asp-action="ApplyLoan" asp-controller="Loan" class="btn btn-outline-primary">Apply for Loan</a>
+</div>

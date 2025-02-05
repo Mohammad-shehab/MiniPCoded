@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CPCoded.Data;
 using CPCoded.Models.ViewModels;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -28,7 +29,7 @@ namespace CPCoded.Areas.Administrator.Controllers
             db = _applicationDbContext;
         }
         #endregion
-
+        #region GeneralActions
         public IActionResult Index()
         {
             return View();
@@ -39,11 +40,6 @@ namespace CPCoded.Areas.Administrator.Controllers
             return View(db.LoanApplications);
         }
 
-
-
-
-
-           
         public async Task<IActionResult> AccountDetails(string id)
         {
             var user = await userManager.FindByIdAsync(id);
@@ -121,6 +117,25 @@ namespace CPCoded.Areas.Administrator.Controllers
 
             return RedirectToAction("AllApplications");
         }
+        #endregion
+        #region AdminActions
+        public async Task<IActionResult> TrackRepayments()
+        {
+            var repayments = await db.LoanRepayments
+                .Include(r => r.LoanApplication)
+                .ToListAsync();
 
+            return View(repayments);
+        }
+
+        public async Task<IActionResult> OverdueLoans()
+        {
+            var overdueLoans = await db.LoanApplications
+                .Where(l => l.Status == LoanApplication.LoanStatus.Pending && l.ApplicationDate.AddMonths((int)l.DurationInMonths) < DateTime.Now)
+                .ToListAsync();
+
+            return View(overdueLoans);
+        }
+        #endregion
     }
 }

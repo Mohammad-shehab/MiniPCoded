@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CPCoded.Models;
+using System.Collections.Generic;
 
 namespace CPCoded.Data
 {
@@ -14,6 +15,7 @@ namespace CPCoded.Data
 
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<LoanApplication> LoanApplications { get; set; }
+        public DbSet<LoanRepayment> LoanRepayments { get; set; }
 
 
 

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<LoanApplication>
+@{
+    ViewData["Title"] = "OverdueLoans";
+}
+
+<h2>Overdue Loans</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Loan ID</th>
+            <th>Amount</th>
+            <th>Duration (Months)</th>
+            <th>Loan Type</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.Id</td>
+                <td>@loan.LoanAmount</td>
+                <td>@((int)loan.DurationInMonths)</td>
+                <td>@loan.LoanType</td>
+                <td>@loan.ApplicationDate.ToString("yyyy-MM-dd")</td>
+                <td>@loan.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
