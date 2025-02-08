@@ -13,9 +13,9 @@
     <div class="form-group">
         <label for="paymentType">Select Payment Type</label>
         <select class="form-control" id="paymentType">
+            <option value="minimum">Minimum Payment</option>
             <option value="partial" selected>Partial Payment</option>
             <option value="full">Full Payment</option>
-            <option value="minimum">Minimum Payment</option>
         </select>
     </div>
 
@@ -45,8 +45,6 @@
                 <th>Month</th>
                 <th>Due Date</th>
                 <th>Amount</th>
-                <th>Status</th>
-                <th>Operation</th>
             </tr>
         </thead>
         <tbody>
@@ -56,27 +54,6 @@
                     <td>@payment.Month</td>
                     <td>@payment.DueDate.ToShortDateString()</td>
                     <td>@payment.Amount</td>
-                    <td>
-                        @if (payment.IsPaid)
-                        {
-                            <span class="text-success">Paid</span>
-                        }
-                        else
-                        {
-                            <span class="text-danger">Due</span>
-                        }
-                    </td>
-                    <td>
-                        @if (!payment.IsPaid)
-                        {
-                            <form asp-action="PayMonthlyDue" asp-controller="Loan" method="post" style="display:inline;">
-                                <input type="hidden" name="LoanApplicationId" value="@Model.LoanApplicationId" />
-                                <input type="hidden" name="Month" value="@payment.Month" />
-                                <input type="hidden" name="Amount" value="@payment.Amount" />
-                                <input type="submit" value="Pay" class="btn btn-primary" />
-                            </form>
-                        }
-                    </td>
                 </tr>
             }
         </tbody>

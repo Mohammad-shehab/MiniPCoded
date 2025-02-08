@@ -34,15 +34,17 @@ namespace CPCoded.Services
 
             var remainingBalance = loan.LoanAmount - totalPaid;
 
+            // Calculate the monthly due amount
+            var monthlyAmount = loan.LoanAmount / (int)loan.DurationInMonths;
+
             var model = new LoanRepaymentViewModel
             {
                 LoanApplicationId = loan.Id,
                 RemainingBalance = remainingBalance,
-                MinimumPayment = Math.Max(remainingBalance * 0.10, 50) // Ensure minimum is at least 50
+                MinimumPayment = monthlyAmount // Set minimum payment to the monthly due amount
             };
 
             // Generate monthly payments schedule
-            var monthlyAmount = loan.LoanAmount / (int)loan.DurationInMonths;
             model.MonthlyPayments = Enumerable.Range(1, (int)loan.DurationInMonths)
                 .Select(i => new MonthlyPayment
                 {
