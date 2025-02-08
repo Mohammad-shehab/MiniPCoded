@@ -243,5 +243,75 @@ namespace CPCoded.Areas.Administrator.Controllers
             return View(overdueLoans);
         }
         #endregion
+
+
+        public async Task<IActionResult> AllUsers()
+        {
+            var usersInRole = await userManager.GetUsersInRoleAsync("User");
+            return View(usersInRole);
+        }
+
+        public async Task<IActionResult> AllAdmins()
+        {
+            var adminsInRole = await userManager.GetUsersInRoleAsync("Admin");
+            return View(adminsInRole);
+        }
+
+        public async Task<IActionResult> AllPaymentsHistory()
+        {
+            var payments = await db.LoanRepayments
+                .Include(r => r.LoanApplication)
+                .ThenInclude(l => l.ApplicationUser)
+                .ToListAsync();
+            return View(payments);
+        }
+
+
+        public async Task<IActionResult> ProfileDetails()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        public async Task<IActionResult> UserDetails(string id)
+{
+    var user = await userManager.FindByIdAsync(id);
+    if (user == null)
+    {
+        return NotFound();
+    }
+
+    var loans = await db.LoanApplications
+        .Where(l => l.ApplicationUserId == id)
+        .ToListAsync();
+
+    var model = new UserDetailsViewModel
+    {
+        User = user,
+        Loans = loans
+    };
+
+    return View(model);
+}
+
+        public async Task<IActionResult> LoanDetails(int id)
+{
+    var loan = await db.LoanApplications
+        .Include(l => l.LoanRepayments)
+        .FirstOrDefaultAsync(l => l.Id == id);
+
+    if (loan == null)
+    {
+        return NotFound();
+    }
+
+    return View(loan);
+}
+
+
     }
 }

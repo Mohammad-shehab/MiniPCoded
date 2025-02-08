@@ -49,5 +49,7 @@ namespace CPCoded.Models
         {
             Housing, Consumer, Auto, Medical
         }
+        public ICollection<LoanRepayment> LoanRepayments { get; set; } // Add this line
+
     }
 }

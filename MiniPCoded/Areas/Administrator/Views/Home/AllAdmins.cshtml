@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "All Admins";
+}
+
+<h2>All Admins</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Balance</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var admin in Model)
+        {
+            <tr>
+                <td>@admin.FirstName</td>
+                <td>@admin.LastName</td>
+                <td>@admin.Email</td>
+                <td>@admin.Balance.ToString("C")</td>
+                <td>
+                    <a asp-action="AccountDetails" asp-route-id="@admin.Id" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

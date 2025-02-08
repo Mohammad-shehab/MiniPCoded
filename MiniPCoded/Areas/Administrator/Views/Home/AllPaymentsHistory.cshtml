@@ -1,0 +1,31 @@
+﻿@model IEnumerable<LoanRepayment>
+
+@{
+    ViewData["Title"] = "All Payments History";
+}
+
+<h2>All Payments History</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Client Name</th>
+            <th>Loan ID</th>
+            <th>Amount Paid</th>
+            <th>Payment Date</th>
+            <th>Transaction Reference</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var payment in Model)
+        {
+            <tr>
+                <td>@payment.LoanApplication.ApplicationUser.FirstName @payment.LoanApplication.ApplicationUser.LastName</td>
+                <td>@payment.LoanApplicationId</td>
+                <td>@payment.AmountPaid.ToString("C")</td>
+                <td>@payment.PaymentDate.ToString("yyyy-MM-dd")</td>
+                <td>@payment.TransactionReference</td>
+            </tr>
+        }
+    </tbody>
+</table>

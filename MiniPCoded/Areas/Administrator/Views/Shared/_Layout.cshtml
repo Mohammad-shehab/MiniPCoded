@@ -26,18 +26,23 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         @if (signinManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="TransactionsList2">Transactions</a>
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Home" asp-action="AllUsers">All Clients</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Home" asp-action="AllAdmins">All Admins</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AllUsers">Users</a>
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Home" asp-action="AllPaymentsHistory">All Payments History</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AccountDetails">Profile</a>
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Home" asp-action="ProfileDetails">Profile</a>
                             </li>
                         }
                     </ul>
