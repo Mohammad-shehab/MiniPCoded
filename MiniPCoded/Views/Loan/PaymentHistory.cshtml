@@ -1,41 +1,43 @@
 ﻿@model IEnumerable<LoanRepayment>
 
 @{
-    ViewData["Title"] = "PaymentHistory";
+    ViewData["Title"] = "Payment History";
 }
 
-<h1>Payment History</h1>
-@if (!Model.Any())
-{
-    <a asp-action="Index"></a>
-    <br>
-    <!-- If the model is empty, show a message -->
-    <div class="alert alert-warning">
-        <h4 class="alert-heading">Table is Empty</h4>
-        <p>No Payment History found in the database.</p>
-    </div>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Loan ID</th>
-                <th>Amount Paid</th>
-                <th>Payment Date</th>
-                <th>Transaction Reference</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var payment in Model)
-            {
+<div class="ll">
+    <h2>Payment History</h2>
+    @if (!Model.Any())
+    {
+        <a asp-action="Index"></a>
+        <br>
+        <!-- If the model is empty, show a message -->
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">Table is Empty</h4>
+            <p>No Payment History found in the database.</p>
+        </div>
+    }
+    else
+    {
+        <table class="table table-responsive loan-table">
+            <thead>
                 <tr>
-                    <td>@payment.LoanApplicationId</td>
-                    <td>@payment.AmountPaid</td>
-                    <td>@payment.PaymentDate.ToString("yyyy-MM-dd")</td>
-                    <td>@payment.TransactionReference</td>
+                    <th>Loan ID</th>
+                    <th>Amount Paid</th>
+                    <th>Payment Date</th>
+                    <th>Transaction Reference</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    <tr>
+                        <td>@payment.LoanApplicationId</td>
+                        <td>@payment.AmountPaid</td>
+                        <td>@payment.PaymentDate.ToString("yyyy-MM-dd")</td>
+                        <td>@payment.TransactionReference</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -6,55 +6,117 @@
 <h2>Repay Loan</h2>
 
 <form asp-action="RepayLoan" asp-controller="Loan" method="post">
-    <div asp-validation-summary="All"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="LoanApplicationId" />
+
+    <!-- Payment Type Selection -->
     <div class="form-group">
-        <label asp-for="PayFull" class="control-label"></label>
-        <input asp-for="PayFull" type="checkbox" class="form-check-input" id="payFullCheckbox" />
-        <span asp-validation-for="PayFull" class="text-danger"></span>
+        <label for="paymentType">Select Payment Type</label>
+        <select class="form-control" id="paymentType">
+            <option value="partial" selected>Partial Payment</option>
+            <option value="full">Full Payment</option>
+            <option value="minimum">Minimum Payment</option>
+        </select>
     </div>
 
+    <!-- Amount Input Field -->
     <div class="form-group">
-        <label asp-for="AmountPaid" class="control-label"></label>
+        <label asp-for="AmountPaid" class="control-label">Enter Payment Amount</label>
         <input asp-for="AmountPaid" class="form-control" id="amountPaidInput" />
         <span asp-validation-for="AmountPaid" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <input type="submit" value="Repay" class="btn btn-primary" />
     </div>
 </form>
 
+<!-- Display Remaining Balance -->
 <div>
     <h4>Remaining Balance: @Model.RemainingBalance</h4>
 </div>
 
+<!-- Monthly Payment Schedule -->
 <div id="monthlyPaymentsSection">
     <h4>Monthly Payments</h4>
-    <ul>
-        @foreach (var payment in Model.MonthlyPayments)
-        {
-            <li>Month @payment.Month: @payment.DueDate.ToShortDateString() - Amount: @payment.Amount</li>
-        }
-    </ul>
+    <table class="table table-responsive loan-table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model.MonthlyPayments)
+            {
+                <tr>
+                    <td>@payment.Month</td>
+                    <td>@payment.DueDate.ToShortDateString()</td>
+                    <td>@payment.Amount</td>
+                    <td>
+                        @if (payment.IsPaid)
+                        {
+                            <span class="text-success">Paid</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Due</span>
+                        }
+                    </td>
+                    <td>
+                        @if (!payment.IsPaid)
+                        {
+                            <form asp-action="PayMonthlyDue" asp-controller="Loan" method="post" style="display:inline;">
+                                <input type="hidden" name="LoanApplicationId" value="@Model.LoanApplicationId" />
+                                <input type="hidden" name="Month" value="@payment.Month" />
+                                <input type="hidden" name="Amount" value="@payment.Amount" />
+                                <input type="submit" value="Pay" class="btn btn-primary" />
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        document.getElementById('payFullCheckbox').addEventListener('change', function () {
-            var payFull = this.checked;
+        document.addEventListener('DOMContentLoaded', function () {
+            var paymentTypeDropdown = document.getElementById('paymentType');
             var amountPaidInput = document.getElementById('amountPaidInput');
             var monthlyPaymentsSection = document.getElementById('monthlyPaymentsSection');
 
-            if (payFull) {
-                amountPaidInput.value = '@Model.RemainingBalance';
-                monthlyPaymentsSection.style.display = 'none';
-            } else {
-                amountPaidInput.value = '';
-                monthlyPaymentsSection.style.display = 'block';
-            }
-        });
+            function updatePaymentOptions() {
+                var selectedType = paymentTypeDropdown.value;
 
-        // Initialize the state based on the checkbox
-        document.getElementById('payFullCheckbox').dispatchEvent(new Event('change'));
+                if (selectedType === "full") {
+                    // If full payment is selected
+                    amountPaidInput.value = '@Model.RemainingBalance';
+                    amountPaidInput.readOnly = true;
+                    monthlyPaymentsSection.style.display = 'none';
+                } else if (selectedType === "minimum") {
+                    // If minimum payment is selected
+                    amountPaidInput.value = '@Model.MinimumPayment';
+                    amountPaidInput.readOnly = true;
+                    monthlyPaymentsSection.style.display = 'block';
+                } else {
+                    // Partial payment mode (default)
+                    amountPaidInput.value = '';
+                    amountPaidInput.readOnly = false;
+                    monthlyPaymentsSection.style.display = 'block';
+                }
+            }
+
+            // Attach event listener to dropdown
+            paymentTypeDropdown.addEventListener('change', updatePaymentOptions);
+
+            // Initialize state on page load
+            updatePaymentOptions();
+        });
     </script>
 }

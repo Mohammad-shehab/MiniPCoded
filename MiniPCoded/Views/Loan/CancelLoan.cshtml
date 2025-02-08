@@ -1,0 +1,25 @@
+﻿@model LoanApplication
+@{
+    ViewData["Title"] = "Cancel Loan";
+}
+
+<h2>Cancel Loan</h2>
+
+<div class="alert alert-warning">
+    <h4>Are you sure you want to cancel this loan?</h4>
+    <p>
+        <strong>Loan ID:</strong> @Model.Id<br />
+        <strong>Amount:</strong> @Model.LoanAmount<br />
+        <strong>Duration:</strong> @((int)Model.DurationInMonths) months<br />
+        <strong>Type:</strong> @Model.LoanType<br />
+        <strong>Date:</strong> @Model.ApplicationDate.ToString("yyyy-MM-dd")
+    </p>
+</div>
+
+<form asp-action="CancelLoanConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <input type="submit" value="Cancel Loan" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>

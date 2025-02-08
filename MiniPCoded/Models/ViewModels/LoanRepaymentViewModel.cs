@@ -18,6 +18,10 @@ namespace CPCoded.Models.ViewModels
 
         public bool PayFull { get; set; }
 
+        public bool PayMinimum { get; set; }
+
+        public double MinimumPayment { get; set; } // 10% of the remaining balance
+
         public List<MonthlyPayment> MonthlyPayments { get; set; } = new List<MonthlyPayment>();
     }
 
@@ -26,6 +30,6 @@ namespace CPCoded.Models.ViewModels
         public int Month { get; set; }
         public DateTime DueDate { get; set; }
         public double Amount { get; set; }
+        public bool IsPaid { get; set; } // Add property to indicate if the payment is paid
     }
 }
-
