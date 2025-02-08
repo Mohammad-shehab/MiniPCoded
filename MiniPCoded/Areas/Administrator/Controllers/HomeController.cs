@@ -313,5 +313,78 @@ namespace CPCoded.Areas.Administrator.Controllers
 }
 
 
+
+
+        [HttpPost]
+        public async Task<IActionResult> Approve2(int id)
+        {
+            var loan = await db.LoanApplications.FindAsync(id);
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            if (loan.Status == LoanApplication.LoanStatus.Pending)
+            {
+                loan.Status = LoanApplication.LoanStatus.Approved;
+
+                var user = await userManager.FindByIdAsync(loan.ApplicationUserId);
+                if (user != null)
+                {
+                    user.Balance += loan.LoanAmount;
+                    var result = await userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return View(loan);
+                    }
+                }
+
+                db.LoanApplications.Update(loan);
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("UserDetails", new { id = loan.ApplicationUserId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reject2(int id)
+        {
+            var loan = await db.LoanApplications.FindAsync(id);
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            if (loan.Status == LoanApplication.LoanStatus.Pending)
+            {
+                loan.Status = LoanApplication.LoanStatus.Rejected;
+
+                var user = await userManager.FindByIdAsync(loan.ApplicationUserId);
+                if (user != null)
+                {
+                    var result = await userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return View(loan);
+                    }
+                }
+
+                db.LoanApplications.Update(loan);
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("UserDetails", new { id = loan.ApplicationUserId });
+        }
+
+
+
     }
 }

@@ -35,7 +35,7 @@
     <thead>
         <tr>
             <th>Loan Amount</th>
-            <th>Duration </th>
+            <th>Duration</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -48,7 +48,19 @@
                 <td>@loan.DurationInMonths</td>
                 <td>@loan.Status</td>
                 <td>
-                    <a asp-action="LoanDetails" asp-route-id="@loan.Id" class="btn btn-primary">View Details</a>
+                    @if (loan.Status == LoanApplication.LoanStatus.Pending)
+                    {
+                        <form asp-action="Approve2" asp-route-id="@loan.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form asp-action="Reject2" asp-route-id="@loan.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    }
+                    else if (loan.Status == LoanApplication.LoanStatus.Approved || loan.Status == LoanApplication.LoanStatus.PaidOff)
+                    {
+                        <a asp-action="LoanDetails" asp-route-id="@loan.Id" class="btn btn-primary">View Details</a>
+                    }
                 </td>
             </tr>
         }
