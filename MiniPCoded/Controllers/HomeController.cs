@@ -168,7 +168,10 @@ namespace CPCoded.Controllers
 
         //    return View(users);
         //}
-  
-
+        [AllowAnonymous]
+        public IActionResult Home()
+        {
+            return View();
+        }
     }
 }
