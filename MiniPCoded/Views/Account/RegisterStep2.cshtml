@@ -4,7 +4,7 @@
     ViewData["Title"] = "Register - Step 2";
 }
 
-<div class="card">
+@* <div class="card">
     <div class="card">
         <div class="card">
             <h2>Register - Step 2</h2>
@@ -61,38 +61,92 @@
             <small>Secure Banking © 2025</small>
         </div>
     </div>
-</div>
+</div> *@
 
+
+
+<!-- sign-section -->
+<section class="sign-section pt_100 pb_120">
+    <div class="pattern-layer" style="background-image: url(/assets/images/shape/shape-2.png);"></div>
+    <div class="auto-container">
+        <div class="form-inner">
+            <div class="d-flex justify-content-between">
+                <!-- Left SVG with Link -->
+                    <a asp-action="RegisterStep1" asp-controller="Account" class="text text-start hover-blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="30" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                    </a>
+                
+
+                <!-- Right SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000080" class="bi bi-2-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24c0-.691.493-1.306 1.336-1.306.756 0 1.313.492 1.313 1.236 0 .697-.469 1.23-.902 1.705l-2.971 3.293V12h5.344v-1.107H7.268v-.077l1.974-2.22.096-.107c.688-.763 1.287-1.428 1.287-2.43 0-1.266-1.031-2.215-2.613-2.215-1.758 0-2.637 1.19-2.637 2.402v.065h1.271v-.07Z" />
+                </svg>
+            </div>
+            
+            <!-- page-title -->
+            <section class="page-title centred pb_80 pt_30">
+                <div class="auto-container">
+                    <div class="content-box">
+                        <h1>Register</h1>
+                    </div>
+                </div>
+            </section>
+            <!-- page-title end -->
+
+            <form method="post" asp-action="RegisterStep2" asp-controller="Account" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" required>
+                    <span asp-validation-for="FirstName" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" required>
+                    <span asp-validation-for="LastName" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CivilID"></label>
+                    <input asp-for="CivilID" required>
+                    <span asp-validation-for="CivilID" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Gender" class="form-label"></label>
+                    <select asp-for="Gender" class="form-control text-center font-monospace">
+                        <option value="-1">-- Select --</option>trol">
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth"></label>
+                    <input asp-for="DateOfBirth" class="form-control text-center font-monospace" required>
+                    <span asp-validation-for="DateOfBirth" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProfilePicture" class="form-label"></label>
+                    <input asp-for="ProfilePicture" class="form-control-file form-control" type="file" />
+                    <span asp-validation-for="ProfilePicture" class="text-danger font-monospace"></span>
+                </div>
+
+                <div class="form-group message-btn">
+                    <button type="submit" class="theme-btn btn-one">Register</button>
+                </div>
+                <ul class="social-links clearfix">
+                    <li>
+                        <a asp-action="Login" asp-controller="Account">Login</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- sign-section end -->
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
-<style>
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 18px;
-        text-align: left;
-    }
-
-        .styled-table th, .styled-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .styled-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .styled-table tr:hover {
-            background-color: #ddd;
-        }
-
-        .styled-table th {
-            background-color: #f2f2f2;
-        }
-</style>
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

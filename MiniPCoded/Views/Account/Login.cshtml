@@ -3,7 +3,7 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="card">
+@* <div class="card">
     <h2>Login</h2>
     <form method="post" asp-action="Login" asp-controller="Account" id="registerForm">
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -31,7 +31,55 @@
                 </p>
             </div>
     </form>
-</div>
+</div> *@
+
+
+<!-- sign-section -->
+<section class="sign-section pt_100 pb_120">
+    <div class="pattern-layer" style="background-image: url(/assets/images/shape/shape-2.png);"></div>
+    <div class="auto-container">
+        <div class="form-inner">
+            <!-- page-title -->
+            <section class="page-title centred pb_80 pt_30">
+                <div class="auto-container">
+                    <div class="content-box">
+                        <h1>Login</h1>
+                    </div>
+                </div>
+            </section>
+            <!-- page-title end -->
+
+            <form method="post" asp-action="Login" asp-controller="Account">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" name="email" required>
+                    <span asp-validation-for="Email" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" required>
+                    <span asp-validation-for="Password" class="text-danger font-monospace"></span>
+                </div>
+                <div class="other-option">
+                    <div class="check-box">
+                        <input asp-for ="RememberMe" class="check" type="checkbox">
+                        <label asp-for="RememberMe"></label>
+                        <span asp-validation-for="RememberMe" class="text-danger font-monospace"></span>
+                    </div>
+                </div>
+                <div class="form-group message-btn">
+                    <button type="submit" class="theme-btn btn-one">Log In</button>
+                </div>
+                <ul class="social-links clearfix">
+                    <li>
+                        <a asp-action="RegisterStep1" asp-controller="Account">Create an Account</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- sign-section end -->
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

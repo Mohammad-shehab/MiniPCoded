@@ -22,4 +22,18 @@
     <Folder Include="Areas\Administrator\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\assets\.DS_Store" />
+    <None Include="wwwroot\assets\css\.DS_Store" />
+    <None Include="wwwroot\assets\css\module-css\.DS_Store" />
+    <None Include="wwwroot\assets\images\.DS_Store" />
+    <None Include="wwwroot\assets\images\background\.DS_Store" />
+    <None Include="wwwroot\assets\images\banner\.DS_Store" />
+    <None Include="wwwroot\assets\images\icons\.DS_Store" />
+    <None Include="wwwroot\assets\images\news\.DS_Store" />
+    <None Include="wwwroot\assets\images\resource\.DS_Store" />
+    <None Include="wwwroot\assets\images\shape\.DS_Store" />
+    <None Include="wwwroot\assets\js\.DS_Store" />
+  </ItemGroup>
+
 </Project>

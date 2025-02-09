@@ -4,7 +4,7 @@
     ViewData["Title"] = "Register - Step 1";
 }
 
-<div class="card">
+@* <div class="card">
     <div class="card>
         <div class="card">
             <h2>Register - Step 1</h2>
@@ -41,34 +41,59 @@
             <small>Secure Banking © 2025</small>
         </div>
     </div>
-</div>
+</div> *@
 
-<style>
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 18px;
-        text-align: left;
-    }
+<!-- sign-section -->
+<section class="sign-section pt_100 pb_120">
+    <div class="pattern-layer" style="background-image: url(/assets/images/shape/shape-2.png);"></div>
+    <div class="auto-container">
+        <div class="form-inner">
+            <div class="text-end">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#000080" class="bi bi-1-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z" />
+                </svg>
+            </div>
+            
+            <!-- page-title -->
+            <section class="page-title centred pb_80 pt_30">
+                <div class="auto-container">
+                    <div class="content-box">
+                        <h1>Register</h1>
+                    </div>
+                </div>
+            </section>
+            <!-- page-title end -->
 
-        .styled-table th, .styled-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .styled-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .styled-table tr:hover {
-            background-color: #ddd;
-        }
-
-        .styled-table th {
-            background-color: #f2f2f2;
-        }
-</style>
-
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+            <form method="post" asp-action="RegisterStep1" asp-controller="Account">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" name="email" required>
+                    <span asp-validation-for="Email" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" required>
+                    <span asp-validation-for="Password" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" required>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger font-monospace"></span>
+                </div>
+                <div class="form-group message-btn">
+                    <button type="submit" class="theme-btn btn-one">Next</button>
+                </div>
+                <ul class="social-links clearfix">
+                    <li>
+                        <a asp-action="RegisterStep1" asp-controller="Account">Create an Account</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- sign-section end -->
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
