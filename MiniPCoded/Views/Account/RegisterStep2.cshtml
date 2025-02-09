@@ -3,8 +3,30 @@
 @{
     ViewData["Title"] = "Register - Step 2";
 }
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-<div class="card">
+<!-- Stylesheets -->
+<link href="~/assets/css/font-awesome-all.css" rel="stylesheet">
+<link href="~/assets/css/flaticon.css" rel="stylesheet">
+<link href="~/assets/css/owl.css" rel="stylesheet">
+<link href="~/assets/css/bootstrap.css" rel="stylesheet">
+<link href="~/assets/css/jquery.fancybox.min.css" rel="stylesheet">
+<link href="~/assets/css/animate.css" rel="stylesheet">
+<link href="~/assets/css/nice-select.css" rel="stylesheet">
+<link href="~/assets/css/odometer.css" rel="stylesheet">
+<link href="~/assets/css/elpath.css" rel="stylesheet">
+<link href="~/assets/css/color.css" id="jssDefault" rel="stylesheet">
+<link href="~/assets/css/rtl.css" rel="stylesheet">
+<link href="~/assets/css/style.css" rel="stylesheet">
+<link href="~/assets/css/module-css/header.css" rel="stylesheet">
+<link href="~/assets/css/module-css/page-title.css" rel="stylesheet">
+<link href="~/assets/css/module-css/login.css" rel="stylesheet">
+<link href="~/assets/css/module-css/subscribe.css" rel="stylesheet">
+<link href="~/assets/css/module-css/footer.css" rel="stylesheet">
+<link href="~/assets/css/responsive.css" rel="stylesheet">
+@* <div class="card">
     <div class="card">
         <div class="card">
             <h2>Register - Step 2</h2>
@@ -61,38 +83,80 @@
             <small>Secure Banking © 2025</small>
         </div>
     </div>
-</div>
+</div> *@
+
+<!-- signUp-section -->
+<section class="sign-section pt_110 pb_120">
+    <div class="pattern-layer" style="background-image: url(assets/images/shape/shape-2.png);"></div>
+    <div class="auto-container">
+        <div class="form-inner">
+            <form asp-action="RegisterStep2" asp-controller="Account" method="post">
+
+                <div class="content-box text-center">
+                    <h1>Sign Up</h1>
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" required>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" required>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="Gender">Gender</label>
+                    <select asp-for="Gender" class="form-control text-center">
+                        <option value="-1">-- Select --</option>
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" required>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="CivilID"></label>
+                    <input asp-for="CivilID" required>
+                    <span asp-validation-for="CivilID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ProfilePicture"></label>
+                    <input asp-for="ProfilePicture" class="form-control-file" type="file" />
+                    <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                </div>
+
+                <div class="form-group message-btn">
+                    <button type="submit" class="theme-btn btn-one">Register</button>
+                </div>
+                <ul class="social-links clearfix">
+                    <li>
+                        <a asp-action="Login" asp-controller="Account">Sign In</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- signUp-section end -->
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
-<style>
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 18px;
-        text-align: left;
-    }
-
-        .styled-table th, .styled-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .styled-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .styled-table tr:hover {
-            background-color: #ddd;
-        }
-
-        .styled-table th {
-            background-color: #f2f2f2;
-        }
-</style>
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

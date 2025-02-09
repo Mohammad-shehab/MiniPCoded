@@ -2,8 +2,30 @@
 @{
     ViewData["Title"] = "Login";
 }
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-<div class="card">
+<!-- Stylesheets -->
+<link href="~/assets/css/font-awesome-all.css" rel="stylesheet">
+<link href="~/assets/css/flaticon.css" rel="stylesheet">
+<link href="~/assets/css/owl.css" rel="stylesheet">
+<link href="~/assets/css/bootstrap.css" rel="stylesheet">
+<link href="~/assets/css/jquery.fancybox.min.css" rel="stylesheet">
+<link href="~/assets/css/animate.css" rel="stylesheet">
+<link href="~/assets/css/nice-select.css" rel="stylesheet">
+<link href="~/assets/css/odometer.css" rel="stylesheet">
+<link href="~/assets/css/elpath.css" rel="stylesheet">
+<link href="~/assets/css/color.css" id="jssDefault" rel="stylesheet">
+<link href="~/assets/css/rtl.css" rel="stylesheet">
+<link href="~/assets/css/style.css" rel="stylesheet">
+<link href="~/assets/css/module-css/header.css" rel="stylesheet">
+<link href="~/assets/css/module-css/page-title.css" rel="stylesheet">
+<link href="~/assets/css/module-css/login.css" rel="stylesheet">
+<link href="~/assets/css/module-css/subscribe.css" rel="stylesheet">
+<link href="~/assets/css/module-css/footer.css" rel="stylesheet">
+<link href="~/assets/css/responsive.css" rel="stylesheet">
+@* <div class="card">
     <h2>Login</h2>
     <form method="post" asp-action="Login" asp-controller="Account" id="registerForm">
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -31,9 +53,54 @@
                 </p>
             </div>
     </form>
-</div>
+</div> *@
+
+
+<!-- sign-section -->
+<section class="sign-section pt_110 pb_120">
+    <div class="pattern-layer" style="background-image: url(~/assets/images/shape/shape-2.png);"></div>
+    <div class="auto-container">
+        <div class="form-inner">
+            <form method="post" action="login.html">
+
+                <div class="content-box text-center">
+                    <h1>Login</h1>
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" required>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="other-option">
+                    <div class="check-box">
+                        <input class="check" type="checkbox" id="checkbox1">
+                        <label asp-for="RememberMe">Remember me</label>
+                    </div>
+                </div>
+                <div class="form-group message-btn">
+                    <button type="submit" class="theme-btn btn-one">Login</button>
+                </div>
+                <ul class="social-links clearfix">
+                    <li>
+                        <a asp-action="RegisterStep1" asp-controller="Account">Create an Account</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- sign-section end -->
+
 
 @section Scripts {
+        `
     <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -60,5 +127,5 @@
                 input.addEventListener("input", checkInputs);
             });
         });
-    </script>
+    </script>`
 }

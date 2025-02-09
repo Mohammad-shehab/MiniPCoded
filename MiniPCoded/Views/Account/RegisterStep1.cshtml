@@ -4,7 +4,30 @@
     ViewData["Title"] = "Register - Step 1";
 }
 
-<div class="card">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+<!-- Stylesheets -->
+<link href="~/assets/css/font-awesome-all.css" rel="stylesheet">
+<link href="~/assets/css/flaticon.css" rel="stylesheet">
+<link href="~/assets/css/owl.css" rel="stylesheet">
+<link href="~/assets/css/bootstrap.css" rel="stylesheet">
+<link href="~/assets/css/jquery.fancybox.min.css" rel="stylesheet">
+<link href="~/assets/css/animate.css" rel="stylesheet">
+<link href="~/assets/css/nice-select.css" rel="stylesheet">
+<link href="~/assets/css/odometer.css" rel="stylesheet">
+<link href="~/assets/css/elpath.css" rel="stylesheet">
+<link href="~/assets/css/color.css" id="jssDefault" rel="stylesheet">
+<link href="~/assets/css/rtl.css" rel="stylesheet">
+<link href="~/assets/css/style.css" rel="stylesheet">
+<link href="~/assets/css/module-css/header.css" rel="stylesheet">
+<link href="~/assets/css/module-css/page-title.css" rel="stylesheet">
+<link href="~/assets/css/module-css/login.css" rel="stylesheet">
+<link href="~/assets/css/module-css/subscribe.css" rel="stylesheet">
+<link href="~/assets/css/module-css/footer.css" rel="stylesheet">
+<link href="~/assets/css/responsive.css" rel="stylesheet">
+@* <div class="card">
     <div class="card>
         <div class="card">
             <h2>Register - Step 1</h2>
@@ -41,34 +64,48 @@
             <small>Secure Banking © 2025</small>
         </div>
     </div>
-</div>
+</div> *@
 
-<style>
-    .styled-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 18px;
-        text-align: left;
-    }
+<!-- signUp-section -->
+<section class="sign-section pt_110 pb_120">
+    <div class="pattern-layer" style="background-image: url(~/assets/images/shape/shape-2.png);"></div>
+    <div class="auto-container">
+        <div class="form-inner">
+            <form asp-action="RegisterStep1" asp-controller="Account" method="post">
 
-        .styled-table th, .styled-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .styled-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .styled-table tr:hover {
-            background-color: #ddd;
-        }
-
-        .styled-table th {
-            background-color: #f2f2f2;
-        }
-</style>
+                <div class="content-box text-center">
+                    <h1>Sign Up</h1>
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" required>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" required>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group message-btn">
+                    <button type="submit" class="theme-btn btn-one">Continue</button>
+                </div>
+                <ul class="social-links clearfix">
+                    <li>
+                        <a asp-action="Login" asp-controller="Account">Sign In</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- signUp-section end -->
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
