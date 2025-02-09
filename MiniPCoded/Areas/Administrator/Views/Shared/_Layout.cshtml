@@ -50,7 +50,7 @@
                         @if (signinManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <form asp-area="Administrator" asp-controller="Home" asp-action="Logout" method="post">
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
                                     <button type="submit" class="nav-link text-dark btn btn-link" style="cursor: pointer;">
                                         Logout @User.Identity!.Name
                                     </button>
