@@ -147,8 +147,8 @@
                         </div>
                         <div class="menu-right-content">
                             <div class="search-btn mr_20"><button class="search-toggler"><i class="icon-1"></i></button></div>
-                            <div class="link-box mr_20"><a href="~/login.html">Log In</a></div>
-                            <div class="btn-box"><a href="~/index.html" class="theme-btn btn-one">Get Started</a></div>
+                            <div class="link-box mr_20"><a asp-action="Login" asp-controller="Account">Log In</a></div>
+                            <div class="btn-box"><a asp-action="RegisterStep1" asp-controller="Account" class="theme-btn btn-one">Get Started</a></div>
                         </div>
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                         </div>
                         <div class="menu-right-content">
                             <div class="search-btn mr_20"><button class="search-toggler"><i class="icon-1"></i></button></div>
-                            <div class="link-box mr_20"><a href="~/login.html">Log In</a></div>
+                            <div class="link-box mr_20"><a asp-action="Login" asp-controller="Account">Log In</a></div>
                             <div class="btn-box"><a href="~/index.html" class="theme-btn btn-one">Get Started</a></div>
                         </div>
                     </div>
@@ -192,8 +192,11 @@
             </nav>
         </div>
         <!-- End Mobile Menu -->
-		@RenderBody()
-        @RenderSection("Scripts", required: false)
+        <div class="BodyRender">
+			@RenderBody()
+			@RenderSection("Scripts", required: false)
+        </div>
+		
         <!-- main-footer -->
         <footer class="main-footer">
             <div class="widget-section p_relative pt_80 pb_100">
@@ -319,31 +322,34 @@
     <!-- main-js -->
     <script src="~/assets/js/script.js"></script>
     <script>
+
         let frames = [
-          "assets/images/frame1.png",
-          "assets/images/frame2.png",
-          "assets/images/frame3.png"
-        ]; // List all frames
+          "/assets/images/frame1.png",
+          "/assets/images/frame2.png",
+          "/assets/images/frame3.png"
+        ]; // Use absolute paths
 
         let index = 0;
+
         function animateFavicon() {
-          let link = document.getElementById("dynamic-favicon");
-          if (!link) {
-            link = document.createElement("link");
-            link.id = "dynamic-favicon";
-            link.rel = "icon";
-            link.type = "image/png";
-            document.head.appendChild(link);
-          }
+            let link = document.getElementById("dynamic-favicon");
+            if (!link) {
+                link = document.createElement("link");
+                link.id = "dynamic-favicon";
+                link.rel = "icon";
+                link.type = "image/png";
+                document.head.appendChild(link);
+            }
 
-          link.href =~/ frames[index]; // Update favicon
+            link.href = frames[index] + "?v=" + new Date().getTime(); // Add timestamp to prevent caching
 
-          index = (index + 1) % frames.length; // Loop
-          setTimeout(animateFavicon, 700); // Adjust speed (200ms per frame)
+            index = (index + 1) % frames.length; // Loop
+            setTimeout(animateFavicon, 900); // Adjust speed (700ms per frame)
         }
 
         animateFavicon(); // Start animation loop
     </script>
+
 
 
 

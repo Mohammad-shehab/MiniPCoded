@@ -81,19 +81,21 @@
 
 
 
-
+.BodyRender {
+    padding: 50px;
+}
 
 body {
-  font-size:16px;
-  color: var(--text-color);
-  line-height:26px;
-  font-weight:400;
-  background:#ffffff;
-  font-family: var(--text-font);
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:center top;
-  -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    color: var(--text-color);
+    line-height: 26px;
+    font-weight: 400;
+    background: #ffffff;
+    font-family: var(--text-font);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    -webkit-font-smoothing: antialiased;
 }
 
   @media (min-width:1200px) {

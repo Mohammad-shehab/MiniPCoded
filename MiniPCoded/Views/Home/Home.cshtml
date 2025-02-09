@@ -12,8 +12,16 @@
                     <div class="video-box p_relative pt_40 pb_40 pl_30 centred">
                         <div class="image-layer">
                             <figure class="image-1"><img src="~/assets/images/resource/video-1.png" alt=""></figure>
-                            <figure class="image-2"><img src="~/assets/images/resource/video-2.png" alt=""></figure>
-                            <figure class="image-3"><img src="~/assets/images/resource/video-1.png" alt=""></figure>
+
+
+
+
+                            <figure class="image-2"><img src="~/assets/images/resource/video-1.png" alt=""></figure>
+                            <figure class="image-3"><img src="~/assets/images/resource/video-2.png" alt=""></figure>
+
+
+
+
                         </div>
                         <!---->
                         <div class="video-inner" style="background-image: url(~/assets/images/resource/video-1.png);"></div>
@@ -97,22 +105,29 @@
 </section>
 <!-- chooseus-section end -->
 @section Scripts {
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			let images = document.querySelectorAll('.image-layer figure');
-			let index = 0;
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setInterval(() => {
+                let img2 = document.querySelector('.image-2 img'); // Front image
+                let img3 = document.querySelector('.image-3 img'); // Behind image
 
-			setInterval(() => {
-				// Remove the current active image
-				images[index].style.display = "none";
+                // Apply fade-out effect only to the front image
+                img2.style.opacity = "0";
 
-				// Move to the next image
-				index = (index + 1) % images.length;
+                setTimeout(() => {
+                    // Swap image sources
+                    let tempSrc = img2.src;
+                    img2.src = img3.src;
+                    img3.src = tempSrc;
 
-				// Show the new active image
-				images[index].style.display = "block";
-			}, 3000); // Change every 3 seconds
-		}); 
-	</script>
+                    // Reset opacity for smooth fade-in of new front image
+                    img2.style.opacity = "1";
+                }, 500); // Wait for fade-out before swapping (0.5s)
+            }, 3000); // Switch every 3 seconds
+        });
+    </script>
+
+
+
 }
 
