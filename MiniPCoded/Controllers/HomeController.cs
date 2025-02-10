@@ -168,7 +168,10 @@ namespace CPCoded.Controllers
 
         //    return View(users);
         //}
-  
+  public IActionResult Main()
+        {
+            return View();
+        }
 
     }
 }
