@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<LoanRepayment>
 @{
-    ViewData["Title"] = "TrackRepayments";
+    ViewData["Title"] = "Track Repayments";
 }
 
 <h2>Track Repayments</h2>
 
-<table class="table">
+<table class="table table-responsive loan-table">
     <thead>
         <tr>
             <th>Loan ID</th>
@@ -19,7 +19,7 @@
         {
             <tr>
                 <td>@payment.LoanApplicationId</td>
-                <td>@payment.AmountPaid</td>
+                <td>@payment.AmountPaid.ToString("C")</td>
                 <td>@payment.PaymentDate.ToString("yyyy-MM-dd")</td>
                 <td>@payment.TransactionReference</td>
             </tr>

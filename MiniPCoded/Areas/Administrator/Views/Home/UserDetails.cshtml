@@ -4,7 +4,7 @@
     ViewData["Title"] = "User Details";
 }
 
-<h2>User Details</h2>
+<h2>Client Details</h2>
 
 <div>
     <h4>@Model.User.FirstName @Model.User.LastName</h4>
@@ -31,11 +31,11 @@
 </div>
 
 <h3>Loan Applications</h3>
-<table class="table">
+<table class="table table-responsive loan-table">
     <thead>
         <tr>
             <th>Loan Amount</th>
-            <th>Duration</th>
+            <th>Duration (Months)</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -45,8 +45,29 @@
         {
             <tr>
                 <td>@loan.LoanAmount</td>
-                <td>@loan.DurationInMonths</td>
-                <td>@loan.Status</td>
+                <td>@((int)loan.DurationInMonths)</td>
+                <td>
+                    @if (loan.Status == LoanApplication.LoanStatus.PaidOff)
+                    {
+                        <span class="text-success">Paid</span>
+                    }
+                    else if (loan.Status == LoanApplication.LoanStatus.Approved)
+                    {
+                        <span class="text-success">Approved</span>
+                    }
+                    else if (loan.Status == LoanApplication.LoanStatus.Rejected)
+                    {
+                        <span class="text-danger">Rejected</span>
+                    }
+                    else if (loan.Status == LoanApplication.LoanStatus.Pending)
+                    {
+                        <span class="text-warning">Pending</span>
+                    }
+                    else
+                    {
+                        @loan.Status
+                    }
+                </td>
                 <td>
                     @if (loan.Status == LoanApplication.LoanStatus.Pending)
                     {
@@ -66,3 +87,7 @@
         }
     </tbody>
 </table>
+
+
+
+

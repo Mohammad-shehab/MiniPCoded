@@ -6,7 +6,11 @@
 
 <h2>All Payments History</h2>
 
-<table class="table table-striped">
+<div class="form-inline mb-3">
+    <input id="searchInput" type="text" class="form-control" placeholder="Search by Client Name, Loan ID, Amount, or Date" />
+</div>
+
+<table class="table table-responsive loan-table">
     <thead>
         <tr>
             <th>Client Name</th>
@@ -16,7 +20,7 @@
             <th>Transaction Reference</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="paymentsTableBody">
         @foreach (var payment in Model)
         {
             <tr>
@@ -29,3 +33,33 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchInput = document.getElementById('searchInput');
+            var paymentsTableBody = document.getElementById('paymentsTableBody');
+
+            searchInput.addEventListener('keyup', function () {
+                var filter = searchInput.value.toLowerCase();
+                var rows = paymentsTableBody.getElementsByTagName('tr');
+
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i].getElementsByTagName('td');
+                    var match = false;
+
+                    for (var j = 0; j < cells.length; j++) {
+                        if (cells[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                            match = true;
+                            break;
+                        }
+                    }
+
+                    rows[i].style.display = match ? '' : 'none';
+                }
+            });
+        });
+    </script>
+}
+
+

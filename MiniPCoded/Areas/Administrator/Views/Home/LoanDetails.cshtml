@@ -8,12 +8,12 @@
 
 <div>
     <h4>Loan Amount: @Model.LoanAmount</h4>
-    <h4>Duration: @Model.DurationInMonths months</h4>
+    <h4>Duration: @((int)@Model.DurationInMonths) months</h4>
     <h4>Status: @Model.Status</h4>
 </div>
 
 <h3>Payment History</h3>
-<table class="table">
+<table class="table table-responsive loan-table">
     <thead>
         <tr>
             <th>Amount Paid</th>
@@ -25,10 +25,11 @@
         @foreach (var payment in Model.LoanRepayments)
         {
             <tr>
-                <td>@payment.AmountPaid</td>
+                <td>@payment.AmountPaid.ToString("C")</td>
                 <td>@payment.PaymentDate.ToShortDateString()</td>
                 <td>@payment.TransactionReference</td>
             </tr>
         }
     </tbody>
 </table>
+

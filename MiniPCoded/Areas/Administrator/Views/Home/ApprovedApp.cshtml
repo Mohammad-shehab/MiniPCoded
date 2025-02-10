@@ -1,38 +1,21 @@
 ﻿@model IEnumerable<CPCoded.Models.LoanApplication>
 
 @{
-    ViewData["Title"] = "AllApplications";
+    ViewData["Title"] = "Approved Applications";
 }
 
 <h1>Approved Applications</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-responsive loan-table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoanAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DurationInMonths)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ApplicationUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoanType)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.LoanAmount)</th>
+            <th>Duration (Months)</th>
+            <th>@Html.DisplayNameFor(model => model.ApplicationDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.ApplicationUserId)</th>
+            <th>@Html.DisplayNameFor(model => model.LoanType)</th>
             <th></th>
         </tr>
     </thead>
@@ -40,27 +23,22 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.LoanAmount)</td>
+                <td>@((int)item.DurationInMonths)</td>
+                <td>@Html.DisplayFor(modelItem => item.ApplicationDate)</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @if (item.Status == CPCoded.Models.LoanApplication.LoanStatus.Approved)
+                    {
+                        <span class="text-success">Approved</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Status)
+                    }
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LoanAmount)
-                </td>
-                <td>
-                    @((int)item.DurationInMonths)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ApplicationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ApplicationUserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LoanType)
-                </td>
+                <td>@Html.DisplayFor(modelItem => item.ApplicationUserId)</td>
+                <td>@Html.DisplayFor(modelItem => item.LoanType)</td>
                 <td>
                     @if (item.Status == CPCoded.Models.LoanApplication.LoanStatus.Pending)
                     {
@@ -70,7 +48,7 @@
                         </form>
                         <form asp-action="Reject" method="post" style="display:inline;">
                             <input type="hidden" name="id" value="@item.Id" />
-                            <button type="submit" class="btn btn-outline-success">Reject</button>
+                            <button type="submit" class="btn btn-outline-danger">Reject</button>
                         </form>
                     }
                     <a asp-action="AccountDetails" asp-controller="Home" asp-route-id="@item.ApplicationUserId" class="btn btn-outline-primary">Details</a>
@@ -79,3 +57,7 @@
         }
     </tbody>
 </table>
+
+
+
+
