@@ -149,8 +149,24 @@
 
                         </div>
                         <div class="menu-right-content">
-                            <div class="link-box mr_20"><a asp-action="Login" asp-controller="Account">Log In</a></div>
-                            <div class="btn-box"><a asp-action="RegisterStep1" asp-controller="Account" class="theme-btn btn-one">Get Started</a></div>
+
+                            @if (signinManager.IsSignedIn(User))
+                            {
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <div class="btn-box"><button class="theme-btn btn-one">Logout</button></div>
+                                </form>
+
+
+                            }
+                            else
+                            {
+                                <div class="link-box mr_20"><a asp-action="Login" asp-controller="Account">Log In</a></div>
+                                <div class="btn-box"><a asp-action="RegisterStep1" asp-controller="Account" class="theme-btn btn-one">Get Started</a></div>
+                            }
+
+
+
+
                         </div>
                     </div>
                 </div>
