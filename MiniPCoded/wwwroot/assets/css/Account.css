@@ -1,0 +1,411 @@
+﻿/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Remove Backgrounds from Dashboard and Profile */
+.blue-box,
+.profile-section,
+.orange-box {
+    background: transparent !important; /* Fully Transparent */
+    border: none; /* Remove borders */
+    box-shadow: none; /* No shadow */
+}
+
+/* Black Container */
+.container {
+    display: flex; /* Left and right sections appear side by side */
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Left Section - Dashboard */
+.dashboard-section {
+    flex: 1; /* Makes the left section flexible */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Blue Sections */
+.blue-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    min-width: 320px;
+}
+
+/* Right Section - Profile (Fixed Size) */
+.profile-section {
+    width: 350px; /* Fixed width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-left: 2px solid #ddd; /* Subtle left border */
+}
+
+/* Titles */
+.title-box {
+    text-align: left;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px 0;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Profile Container */
+.profile-container {
+    width: 100%;
+    max-width: 320px;
+    height: 390px; /* Fixed height */
+    background: rgba(128, 128, 128, 0.086);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    /* Profile Image */
+    .profile-container img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        box-shadow: 0px 5px 15px rgba(5, 105, 255, 0.685);
+    }
+
+/* Profile Info Table */
+.profile-table {
+    width: 100%;
+    margin-top: 10px;
+    text-align: left;
+}
+
+    /* Table Styling (No Borders) */
+    .profile-table td {
+        padding: 8px 0;
+        font-size: 14px;
+        color: #777;
+    }
+
+        /* Left Column (Labels) */
+        .profile-table td:first-child {
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Right Column (Values) */
+        .profile-table td:last-child {
+            text-align: right;
+        }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .profile-section {
+        width: 100%; /* Makes it full width on small screens */
+        border-left: none;
+        border-top: 2px solid #ddd;
+    }
+}
+
+
+
+
+
+
+/*------------------------------------------------------------------------*/
+
+
+
+/* Navigation Menu */
+.nav-menu ul {
+    list-style: none;
+    padding: 9px;
+    display: flex; /* Makes items go next to each other */
+    gap: 40px; /* Adds spacing between items */
+}
+
+.nav-menu li {
+    font-size: 16px;
+}
+
+/* Default link styles */
+.nav-menu a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 13px 0;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+    /* Hover effect: Text turns blue, underline appears */
+    .nav-menu a:hover,
+    .nav-menu a.active { /* Active class makes the default selected */
+        color: #007bff;
+    }
+
+    /* Underline effect */
+    .nav-menu a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px; /* Adjusts how far the underline appears below text */
+        width: 0%;
+        height: 2px;
+        background-color: #007bff;
+        transition: width 0.3s ease-in-out;
+    }
+
+    /* Expand underline on hover or when active */
+    .nav-menu a:hover::after,
+    .nav-menu a.active::after {
+        width: 100%;
+    }
+
+
+
+
+/* Orange Boxes */
+.orange-box {
+    border: 2px solid rgba(255, 166, 0, 0);
+    padding: 15px;
+}
+
+/* Flex Layout for Cards & Loan Form */
+.flex-container {
+    display: flex;
+    justify-content: space-between; /* Ensures even spacing */
+    align-items: flex-start; /* Aligns content at the top */
+    gap: 30px; /* Adds space between cards and form */
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* Cards Section */
+.card-section {
+    padding-left: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.card {
+    border: 2px solid rgba(0, 128, 0, 0);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Card Container */
+.card-container {
+    display: flex;
+    flex-direction: column; /* Stacks cards below each other */
+    gap: 20px;
+    align-items: flex-start; /* Ensures cards stay aligned to left */
+    width: 40%; /* Takes only necessary space */
+}
+
+/* Bank Card (Active) */
+.bank-card {
+    width: 320px;
+    height: 180px;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+    /* First Card (Dark Theme) */
+    .bank-card.active {
+        background: linear-gradient(135deg, #1a1a1a, #333);
+        color: white;
+    }
+
+    /* Second Card (Blue Theme & Inactive) */
+    .bank-card.inactive {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        opacity: 0.5; /* Semi-transparent */
+        filter: blur(3px); /* Blurry effect */
+        pointer-events: none; /* Disable interaction */
+    }
+
+    /* Hover Effect (Only for Active Cards) */
+    .bank-card:not(.inactive):hover {
+        transform: scale(1.05);
+    }
+
+/* Company Logo */
+.company-logo-container {
+    position: absolute;
+    top: 23px;
+    right: 20px;
+}
+
+.company-logo {
+    width: 50px;
+    height: auto;
+}
+
+/* Balance Section */
+.balance-section {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.balance-label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.balance-amount {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 5px;
+    padding-bottom: 30px;
+}
+
+.card-number {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+
+.comlo {
+    color: gold;
+    font-weight: bold;
+    margin-bottom: 300px;
+}
+
+
+
+
+
+/* Loan Form */
+.loan-form {
+    width: 90%; /* Ensures it takes up enough space */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+    /* Input Fields - Styled Like Image */
+    .loan-form input,
+    .loan-form select {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc; /* Underline effect */
+        padding: 3px 0;
+        font-size: 16px;
+        background: transparent;
+        outline: none;
+        color: black;
+        transition: border-color 0.3s ease-in-out;
+    }
+
+        /* Focus Effect - Changes Underline Color */
+        .loan-form input:focus,
+        .loan-form select:focus {
+            border-bottom: 2px solid #007bff; /* Blue underline on focus */
+        }
+
+    /* Labels - Above Inputs */
+    .loan-form label {
+        font-size: 14px;
+        color: #888; /* Light grey color */
+        font-weight: normal;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Two Inputs in One Row (Expiration Date & CVV) */
+    .loan-form .input-row {
+        display: flex;
+        gap: 15px;
+    }
+
+        .loan-form .input-row div {
+            flex: 1;
+        }
+
+/* Card Icon Position */
+.card-input {
+    display: flex;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+    /* Card Icon */
+    .card-input img {
+        width: 30px;
+        height: auto;
+    }
+
+/* Apply Now Button */
+.theme-btn {
+    border-color: rgba(255, 255, 255, 0);
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    float: right;
+    font-size: 15px;
+    line-height: 14px;
+    font-weight: 500;
+    font-family: Arial, sans-serif;
+    color: white !important; /* Ensures text color is white */
+    text-align: center;
+    background: #000080; /* Navy Blue */
+    padding: 8px 10px; /* Large button */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+    /* Hover Effect */
+    .theme-btn:hover {
+        background: #757589; /* Lighter blue on hover */
+        transform: scale(1.05); /* Slightly enlarges */
+    }
+
+    /* Click Effect */
+    .theme-btn:active {
+        transform: scale(0.98); /* Slightly shrinks on click */
+    }
+
+.toto {
+    padding-top: 40px;
+}

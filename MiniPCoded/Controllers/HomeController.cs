@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using CPCoded.Data;
 using CPCoded.Models;
 using CPCoded.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace CPCoded.Controllers
@@ -38,17 +39,43 @@ namespace CPCoded.Controllers
             {
                 return NotFound();
             }
-            IndexViewModel model = new IndexViewModel()
+
+            var indexViewModel = new IndexViewModel
             {
-                Balance = user.Balance,
-                Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                ProfilePicturePath = user.ProfilePicturePath,
-                Id = user.Id
+                Email = user.Email,
+                Balance = user.Balance,
+                ProfilePicturePath = user.ProfilePicturePath
             };
 
+            var loanApplicationViewModel = new LoanApplicationViewModel
+            {
+                ApplicationUserId = user.Id
+            };
+            // Add Type enum values to ViewBag
+            ViewBag.Types = Enum.GetValues(typeof(LoanApplication.Type))
+                                .Cast<LoanApplication.Type>()
+                                .Select(t => new SelectListItem
+                                {
+                                    Value = t.ToString(),
+                                    Text = t.ToString()
+                                }).ToList();
 
+            // Add Duration enum values to ViewBag
+            ViewBag.Durations = Enum.GetValues(typeof(LoanApplication.Duration))
+                                    .Cast<LoanApplication.Duration>()
+                                    .Select(d => new SelectListItem
+                                    {
+                                        Value = ((int)d).ToString(),
+                                        Text = ((int)d).ToString()
+                                    }).ToList();
+
+            var model = new HomeIndexViewModel
+            {
+                IndexViewModel = indexViewModel,
+                LoanApplicationViewModel = loanApplicationViewModel
+            };
             return View(model);
         }
 

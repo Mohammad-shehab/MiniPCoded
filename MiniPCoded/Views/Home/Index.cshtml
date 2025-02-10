@@ -1,10 +1,13 @@
-﻿@model IndexViewModel
+﻿@model HomeIndexViewModel
 
 @{
     ViewBag.Title = "Welcome";
 }
-<link href="~/assets/css/style2.css" rel="stylesheet" />
-@* <div class=" form-group card">
+
+<link href="~/assets/css/account.css" rel="stylesheet" />
+
+@* <link href="~/assets/css/style2.css" rel="stylesheet" />
+<div class=" form-group card">
     <div >
         <div  >
             <h2>Welcome, @Model.FirstName @Model.LastName</h2>
@@ -30,3 +33,208 @@
 </section>
 
 
+<div class="container">
+    <!-- Black Container -->
+    <!-- Left Section - Dashboard -->
+    <div class="dashboard-section">
+        <div class="blue-box">
+            <!-- Title -->
+            <div class="orange-box title-box">
+                <h2>Dashboard</h2>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="orange-box nav-menu">
+                <ul>
+                    <li><a href="#" class="active">Apply Loan</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">History</a></li>
+                </ul>
+            </div>
+
+            <!-- Card & Loan Form Section -->
+            <div class="orange-box flex-container">
+                <!-- Cards Section -->
+                <div class="green-box card-section">
+                    <div class="card-container">
+                        <!-- Active Card -->
+                        <div class="bank-card active">
+                            <div class="company-logo-container">
+                                <img src="~/assets/images/logo.png" alt="Company Logo" class="company-logo">
+                            </div>
+                            <div class="card-details">
+                                <div class="balance-section">
+                                    <span class="balance-label">Current Balance</span>
+                                    <div class="balance-amount">KWD @Model.IndexViewModel.Balance.ToString("C")</div>
+                                    <div class="card-number">**** **** **** <span class="comlo">D</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Inactive Blue Card -->
+                        <div class="bank-card inactive">
+                            <div class="company-logo-container">
+                                <img src="~/assets/images/logo.png" alt="Company Logo" class="company-logo">
+                            </div>
+                            <div class="card-details">
+                                <div class="balance-section">
+                                    <span class="balance-label">Current Balance</span>
+                                    <div class="balance-amount">KWD</div>
+                                    <div class="card-number">**** **** **** <span class="comlo">D</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Loan Application Form -->
+                <div class="green-box loan-form">
+                    <div class="loan-form">
+                        <h3>Apply for a Loan</h3>
+                        <br>
+                        <form asp-action="ApplyLoan" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" asp-for="LoanApplicationViewModel.ApplicationUserId" />
+
+                            <label asp-for="LoanApplicationViewModel.LoanAmount"></label>
+                            <div class="card-input">
+                                <input asp-for="LoanApplicationViewModel.LoanAmount" id="loanAmountInput">
+                                <span asp-validation-for="LoanApplicationViewModel.LoanAmount" class="text-danger"></span>
+                            </div>
+                            
+                            @* <label asp-for="Duration"></label>
+                            <div class="card-input">
+                                <select asp-for="Duration" class="form-control" asp-items="ViewBag.Durations" id="durationSelect"></select>
+                                <option asp></option>
+                                <span asp-validation-for="Duration" class="text-danger"></span>
+                            </div>
+                            
+                            <label asp-for="LoanType"></label>
+                            <div class="card-input">
+                                <select asp-for="LoanType" class="form-control" asp-items="ViewBag.Types"></select>
+                                <option asp></option>
+                                <span asp-validation-for="LoanType" class="text-danger"></span>
+                            </div> *@
+
+                            
+                            
+
+                            <!-- Duration & Types -->
+                            <div class="input-row">
+                                <div>
+                                    <label asp-for="LoanApplicationViewModel.Duration"></label>
+                                    <select asp-for="LoanApplicationViewModel.Duration" class="form-control" asp-items="ViewBag.Durations" id="durationSelect"></select>
+                                    <option asp></option>
+                                    <span asp-validation-for="LoanApplicationViewModel.Duration" class="text-danger"></span>
+                                </div>
+                                <div style="position: relative;">
+                                    <label asp-for="LoanApplicationViewModel.LoanType"></label>
+                                    <select asp-for="LoanApplicationViewModel.LoanType" class="form-control" asp-items="ViewBag.Types"></select>
+                                    <option asp></option>
+                                    <span asp-validation-for="LoanApplicationViewModel.LoanType" class="text-danger"></span>
+                                </div>
+                            </div>
+                           
+
+                            <label asp-for="LoanApplicationViewModel.InterestRate"></label>
+                            <div class="card-input">
+                                <input asp-for="LoanApplicationViewModel.InterestRate" readonly>
+                            </div>
+                            
+                            <label>Total Interest</label>
+                            <div class="card-input">
+                                <input id="totalInterestInput" readonly>
+                            </div>
+                            
+                            <label>Total Repayment</label>
+                            <div class="card-input">
+                                <input id="totalRepaymentInput" readonly>
+                            </div>
+
+
+                            <div class="text-end toto"><button type="submit" class="theme-btn">Apply Now</button></div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Right Section - Profile -->
+    <div class="blue-box profile-section">
+        <!-- Profile Title -->
+        <div class="orange-box title-box">
+            <h2>Profile</h2>
+        </div>
+
+        <div class="profile-container">
+            <img src="~/images/@Model.IndexViewModel.ProfilePicturePath" alt="User Image">
+            <h3 style="padding-top: 30px;">@Model.IndexViewModel.FirstName @Model.IndexViewModel.LastName</h3>
+
+            <table class="profile-table" style="padding-top: 30px;">
+                <tr>
+                    <td>Email</td>
+                    <td>@Model.IndexViewModel.FirstName @Model.IndexViewModel.Email</td>
+                </tr>
+                <tr>
+                    <td>Civil ID</td>
+                    <td>@Model.IndexViewModel.CivilID</td>
+                </tr>
+                <tr>
+                    <td>Birth</td>
+                    <td>@Model.IndexViewModel.DateOfBirth</td>
+                </tr>
+                <tr>
+                    <td>Balance</td>
+                    <td>@Model.IndexViewModel.Balance.ToString("C")</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function calculateInterestAndRepayment() {
+            var loanAmount = parseFloat(document.getElementById('loanAmountInput').value) || 0;
+            var duration = parseInt(document.getElementById('durationSelect').value) || 0;
+            var interestRate = parseFloat(document.getElementById('InterestRate').value) || 0;
+
+            var totalInterest = loanAmount * (interestRate/ 100  * duration/12);
+            var totalRepayment = loanAmount + totalInterest;
+
+            document.getElementById('totalInterestInput').value = totalInterest.toFixed(2);
+            document.getElementById('totalRepaymentInput').value = totalRepayment.toFixed(2);
+        }
+
+        document.getElementById('loanAmountInput').addEventListener('input', calculateInterestAndRepayment);
+        document.getElementById('durationSelect').addEventListener('change', calculateInterestAndRepayment);
+
+        // Initialize the calculation on page load
+        calculateInterestAndRepayment();
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let menuLinks = document.querySelectorAll(".nav-menu a");
+
+            menuLinks.forEach(link => {
+                link.addEventListener("click", function(event) {
+                    event.preventDefault(); // Prevent default navigation for now
+
+                    // Remove 'active' class from all links
+                    menuLinks.forEach(l => l.classList.remove("active"));
+
+                    // Add 'active' class to the clicked link
+                    this.classList.add("active");
+                });
+            });
+        });
+    </script>
+}
