@@ -5,7 +5,7 @@
 namespace CPCoded.Migrations
 {
     /// <inheritdoc />
-    public partial class gfhj : Migration
+    public partial class ghfsjk : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

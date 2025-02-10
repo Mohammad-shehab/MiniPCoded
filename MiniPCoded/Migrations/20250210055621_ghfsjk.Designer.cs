@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CPCoded.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250208183640_gfhj")]
-    partial class gfhj
+    [Migration("20250210055621_ghfsjk")]
+    partial class ghfsjk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

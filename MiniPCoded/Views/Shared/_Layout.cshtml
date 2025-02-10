@@ -21,7 +21,7 @@
             <div class="container-fluid">
                 
                 
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Main">
                     
                     <img src="~/images/Dinar.png" alt="icon2"class="icon2"/>
                     
@@ -32,9 +32,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
+
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        
                         @if (signinManager.IsSignedIn(User))
                         {
                            @*  <li class="nav-item">
