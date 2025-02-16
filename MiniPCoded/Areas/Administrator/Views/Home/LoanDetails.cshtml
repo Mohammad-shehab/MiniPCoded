@@ -25,7 +25,7 @@
         @foreach (var payment in Model.LoanRepayments)
         {
             <tr>
-                <td>@payment.AmountPaid.ToString("C")</td>
+                <td>@payment.AmountPaid KWD</td>
                 <td>@payment.PaymentDate.ToShortDateString()</td>
                 <td>@payment.TransactionReference</td>
             </tr>
